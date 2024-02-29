@@ -1,11 +1,16 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerRotation : MonoBehaviour
+public class PlayerRotation : NetworkBehaviour
 {
     public float rotationSpeed = 5f;
 
     void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePosition - transform.position;
         direction.z = 0f;

@@ -1,25 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
+    [SerializeField] private Animator animator;
     [SerializeField] private float movementSpeed = 5f;
-    [SerializeField] private Rigidbody2D rigidbody;
-
-    private void Start()
-    {
-        rigidbody = GetComponent<Rigidbody2D>();
-    }
 
     void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
         float xAxis = Input.GetAxisRaw("Horizontal");
         float yAxis = Input.GetAxisRaw("Vertical");
+
+        if (xAxis != 0f || yAxis != 0f)
+        {
+            animator.SetInteger(Player.PlayerAnimationStateName, (int)PlayerAnimationState.Walking);
+        }
+        else
+        {
+            animator.SetInteger(Player.PlayerAnimationStateName, (int)PlayerAnimationState.Idle);
+        }
 
         float xMovement = xAxis * movementSpeed * Time.deltaTime;
         float yMovement = yAxis * movementSpeed * Time.deltaTime;
 
-        rigidbody.velocity += new Vector2(xMovement, yMovement);
+        transform.Translate(xMovement, yMovement, 0, Space.World);
     }
 }
