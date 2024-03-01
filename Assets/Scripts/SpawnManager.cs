@@ -1,17 +1,25 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : NetworkBehaviour
 {
     [SerializeField] private List<Transform> playerSpawnPoints;
     public static SpawnManager Singleton { get; private set; }
 
     private void Awake()
     {
-        if (Singleton != null)
+        var instances = FindObjectsByType<SpawnManager>(FindObjectsSortMode.None);
+        if (instances.Length > 1)
         {
-            Destroy(gameObject);
+            Singleton = instances[0];
+            if (IsServer)
+            {
+                Destroy(gameObject);
+            }
+            return;
         }
         Singleton = this;
     }

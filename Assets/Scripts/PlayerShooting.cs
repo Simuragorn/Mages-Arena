@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -37,6 +35,6 @@ public class PlayerShooting : NetworkBehaviour
     {
         shellReference.TryGet(out NetworkObject shellObject);
         ownerReference.TryGet(out NetworkObject ownerObject);
-        shellObject.GetComponent<Shell>().Launch(ownerObject.gameObject);
+        shellObject.GetComponent<Shell>().Launch(ownerObject.GetComponent<Player>());
     }
 }

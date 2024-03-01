@@ -1,5 +1,6 @@
 using System.Linq;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 public class Shell : NetworkBehaviour
@@ -9,9 +10,9 @@ public class Shell : NetworkBehaviour
     [SerializeField] private ParticleSystem explosionVFX;
 
     private bool isLaunched = false;
-    private GameObject ownerPlayer;
+    private Player ownerPlayer;
 
-    public void Launch(GameObject sendingPlayer)
+    public void Launch(Player sendingPlayer)
     {
         ownerPlayer = sendingPlayer;
         isLaunched = true;
@@ -33,9 +34,9 @@ public class Shell : NetworkBehaviour
         {
             return;
         }
-        if (collision.CompareTag("Player") && ownerPlayer != collision.gameObject)
+        if (collision.CompareTag("Player") && ownerPlayer != collision.gameObject.GetComponent<Player>())
         {
-            collision.GetComponent<PlayerHealth>().GetDamage();
+            collision.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
             DestroyShell();
         }
         if (collision.CompareTag("Target"))
@@ -57,7 +58,11 @@ public class Shell : NetworkBehaviour
         });
 
         explosionVFX.gameObject.SetActive(true);
-        DestroyShellServerRpc(GetComponent<NetworkObject>());
+        if (IsServer)
+        {
+            Destroy(gameObject, 3f);
+        }
+        //DestroyShellServerRpc(GetComponent<NetworkObject>());
     }
 
     [ServerRpc(RequireOwnership = false)]
