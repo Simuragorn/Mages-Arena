@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8619698644107139029}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6670057574825472163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5639722877567797351}
+  m_Layer: 6
+  m_Name: Shield Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5639722877567797351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6670057574825472163}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.333, y: 0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8619698644107139029}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8717618560549236206
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,6 +104,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2278944521550370925}
+  - {fileID: 5639722877567797351}
   - {fileID: 5986355303718548688}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -175,8 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 682349428
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3781987138
+  InScenePlacedSourceGlobalObjectIdHash: 682349428
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -223,9 +255,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8911296b335a0418cf8ed4d9260d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shellPrefab: {fileID: 5344298497322331694, guid: 6ac63b16d7ddbcf4babdffe133370624, type: 3}
-  spawnPosition: {fileID: 2278944521550370925}
-  reloading: 0.5
+  magicType: {fileID: 11400000, guid: f2e7d8fcf5f922444aa6a43371c4db38, type: 2}
+  shellSpawn: {fileID: 2278944521550370925}
+  shieldSpawn: {fileID: 5639722877567797351}
+  stateDelay: 0.5
+  playerMagicState: 0
 --- !u!114 &7035623470991228075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +291,7 @@ MonoBehaviour:
   health: {fileID: 7035623470991228075}
   movement: {fileID: 6323335258275063481}
   rotation: {fileID: 4863383803190798498}
-  shooting: {fileID: 7745346475990780333}
+  magic: {fileID: 7745346475990780333}
 --- !u!95 &7755886878439127997
 Animator:
   serializedVersion: 5

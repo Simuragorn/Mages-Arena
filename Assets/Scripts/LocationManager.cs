@@ -6,8 +6,8 @@ using VectorForestScenery;
 public class LocationManager : MonoBehaviour
 {
     [SerializeField] private List<SceneryItem> sceneryItems;
-    [SerializeField] private int animationItemsBatchSize = 5;
-    [SerializeField] private float delay = 5f;
+    [SerializeField] private float minDelay = 30f;
+    [SerializeField] private float maxDelay = 80f;
 
     private float delayTimeLeft = 0;
 
@@ -16,37 +16,24 @@ public class LocationManager : MonoBehaviour
         delayTimeLeft -= Time.deltaTime;
         if (delayTimeLeft <= 0)
         {
-            delayTimeLeft = delay;
+            delayTimeLeft = Random.Range(minDelay, maxDelay);
             RunAnimations();
         }
     }
 
     private void RunAnimations()
     {
-        ShuffleSceneryItems();
         int animationId = Random.Range(0, 2);
-        sceneryItems.Take(animationItemsBatchSize).ToList().ForEach(i =>
+        sceneryItems.ForEach(i =>
         {
             if (animationId == 0)
             {
                 i.WindLeft();
             }
-            else
+            else if (animationId == 1)
             {
                 i.WindRight();
             }
         });
-    }
-
-    private void ShuffleSceneryItems()
-    {
-        System.Random rng = new System.Random();
-        int n = sceneryItems.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = rng.Next(n + 1);
-            (sceneryItems[n], sceneryItems[k]) = (sceneryItems[k], sceneryItems[n]);
-        }
     }
 }

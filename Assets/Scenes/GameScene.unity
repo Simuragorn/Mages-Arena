@@ -254,7 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 15495060}
   - component: {fileID: 15495061}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -1674,7 +1674,7 @@ GameObject:
   m_Component:
   - component: {fileID: 223538897}
   - component: {fileID: 223538898}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftWall
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -16671,7 +16671,7 @@ GameObject:
   m_Component:
   - component: {fileID: 367913260}
   - component: {fileID: 367913261}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -18830,6 +18830,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone 3 Brown
       objectReference: {fileID: 0}
+    - target: {fileID: 2452378087670036512, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452378087670036512, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281478291537361421, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463430437187859551, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4083143406555002379, guid: a214b9c11a71af649b7a716f68764287, type: 3}
       propertyPath: m_LocalScale.x
       value: -1
@@ -18885,6 +18901,14 @@ PrefabInstance:
     - target: {fileID: 4463870592204164266, guid: a214b9c11a71af649b7a716f68764287, type: 3}
       propertyPath: m_SortingLayerID
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162579873295062160, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009966226340549586, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19133,7 +19157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 674849010}
   - component: {fileID: 674849011}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StoneObstacle
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -19588,6 +19612,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone 3 Brown
       objectReference: {fileID: 0}
+    - target: {fileID: 2452378087670036512, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452378087670036512, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281478291537361421, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463430437187859551, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4083143406555002379, guid: a214b9c11a71af649b7a716f68764287, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -19639,6 +19679,14 @@ PrefabInstance:
     - target: {fileID: 4463870592204164266, guid: a214b9c11a71af649b7a716f68764287, type: 3}
       propertyPath: m_SortingLayerID
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162579873295062160, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009966226340549586, guid: a214b9c11a71af649b7a716f68764287, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20399,9 +20447,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 674849010}
     m_Modifications:
+    - target: {fileID: 188541970126039610, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068004324332252536, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4896491961303041674, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
       propertyPath: m_Name
       value: Stone 1 Brown Variant (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896491961303041674, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896491961303041674, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5508300919868834983, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903056101671930613, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6436049403276970145, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21825,9 +21897,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1924598162}
     m_Modifications:
+    - target: {fileID: 188541970126039610, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068004324332252536, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4896491961303041674, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
       propertyPath: m_Name
       value: Stone 1 Brown Variant (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896491961303041674, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896491961303041674, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5508300919868834983, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903056101671930613, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6436049403276970145, guid: c30f8a910fc991c4f8a95e5f5d84e7d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22564,8 +22660,8 @@ MonoBehaviour:
   - {fileID: 1796157136}
   - {fileID: 625134040}
   - {fileID: 1845579686}
-  animationItemsBatchSize: 5
-  delay: 5
+  minDelay: 30
+  maxDelay: 80
 --- !u!4 &1405859729
 Transform:
   m_ObjectHideFlags: 0
@@ -24573,7 +24669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1924598162}
   - component: {fileID: 1924598163}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StoneObstacle (1)
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -24920,7 +25016,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2050708979}
   - component: {fileID: 2050708980}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TopWall
   m_TagString: Target
   m_Icon: {fileID: 0}

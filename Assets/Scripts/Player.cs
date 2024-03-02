@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -16,8 +17,9 @@ public class Player : NetworkBehaviour
     [SerializeField] private PlayerHealth health;
     [SerializeField] private PlayerMovement movement;
     [SerializeField] private PlayerRotation rotation;
-    [SerializeField] private PlayerShooting shooting;
+    [SerializeField] private PlayerMagic magic;
     public static Player LocalInstance { get; private set; }
+    public static List<Player> Players { get; private set; } = new List<Player>();
     public ulong OwnerId { get; private set; }
 
     public string GetName()
@@ -39,6 +41,12 @@ public class Player : NetworkBehaviour
             LocalInstance = this;
         }
         ArenaManager.Singleton.AddPlayer(this);
+        Players.Add(this);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        Players.Remove(this);
     }
 
     public void Spawn()
@@ -48,7 +56,7 @@ public class Player : NetworkBehaviour
 
         movement.enabled = true;
         rotation.enabled = true;
-        shooting.enabled = true;
+        magic.enabled = true;
         collider.enabled = true;
     }
 
@@ -63,9 +71,11 @@ public class Player : NetworkBehaviour
 
     public void DisableControl()
     {
+        magic.ResetState();
+
         movement.enabled = false;
         rotation.enabled = false;
-        shooting.enabled = false;
+        magic.enabled = false;
         collider.enabled = false;
     }
 }

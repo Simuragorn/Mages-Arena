@@ -17,7 +17,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private bool CanMove(Vector2 direction)
     {
-        int layerMask = ~LayerMask.GetMask(LayersConstants.Player);
+        int layerMask = LayerMask.GetMask(LayersConstants.Default, LayersConstants.Target);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 0.5f, layerMask);
         return hit.collider == null;
     }
@@ -39,10 +39,6 @@ public class PlayerMovement : NetworkBehaviour
         if (CanMove(movementDirection))
         {
             Move(movementDirection);
-        }
-        else
-        {
-            Debug.Log("Cannot Move");
         }
     }
 
