@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -14,6 +12,18 @@ public class PlayerMovement : NetworkBehaviour
         {
             return;
         }
+        HandleMovement();
+    }
+
+    private bool CanMove(Vector2 direction)
+    {
+        int layerMask = ~LayerMask.GetMask(LayersConstants.Player);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 0.5f, layerMask);
+        return hit.collider == null;
+    }
+
+    private void HandleMovement()
+    {
         float xAxis = Input.GetAxisRaw("Horizontal");
         float yAxis = Input.GetAxisRaw("Vertical");
 
@@ -25,10 +35,22 @@ public class PlayerMovement : NetworkBehaviour
         {
             animator.SetInteger(Player.PlayerAnimationStateName, (int)PlayerAnimationState.Idle);
         }
+        Vector2 movementDirection = new(xAxis, yAxis);
+        if (CanMove(movementDirection))
+        {
+            Move(movementDirection);
+        }
+        else
+        {
+            Debug.Log("Cannot Move");
+        }
+    }
 
-        float xMovement = xAxis * movementSpeed * Time.deltaTime;
-        float yMovement = yAxis * movementSpeed * Time.deltaTime;
+    private void Move(Vector2 movementDirection)
+    {
+        float xMovement = movementDirection.x * movementSpeed * Time.deltaTime;
+        float yMovement = movementDirection.y * movementSpeed * Time.deltaTime;
 
-        transform.Translate(xMovement, yMovement, 0, Space.World);
+        transform.Translate(xMovement, yMovement, 0, Camera.main.transform);
     }
 }

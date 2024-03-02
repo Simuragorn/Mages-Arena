@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3495114418510936346}
   - component: {fileID: 5344298497322331694}
   - component: {fileID: 10045762048596}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shell
   m_TagString: Shell
   m_Icon: {fileID: 0}
@@ -143,9 +143,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6261273868451009355}
     m_Modifications:
+    - target: {fileID: 1085412806299596, guid: 13eb4a4a1a68c39408d57aa1e8965c8a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1119560965430016, guid: 13eb4a4a1a68c39408d57aa1e8965c8a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1289377929907018, guid: 13eb4a4a1a68c39408d57aa1e8965c8a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1720670327315042, guid: 13eb4a4a1a68c39408d57aa1e8965c8a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1838308332998216, guid: 13eb4a4a1a68c39408d57aa1e8965c8a, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1892078723244562, guid: 13eb4a4a1a68c39408d57aa1e8965c8a, type: 3}
       propertyPath: m_Name
       value: FireExplosion_VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1892078723244562, guid: 13eb4a4a1a68c39408d57aa1e8965c8a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1892078723244562, guid: 13eb4a4a1a68c39408d57aa1e8965c8a, type: 3}
       propertyPath: m_IsActive
@@ -218,9 +242,25 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 2.7989821
       objectReference: {fileID: 0}
+    - target: {fileID: 7684677543225702287, guid: d4b5a59d523bc1840b48ac92ddfe0ca8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8764043878647920493, guid: d4b5a59d523bc1840b48ac92ddfe0ca8, type: 3}
       propertyPath: m_Name
       value: Fire_VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764043878647920493, guid: d4b5a59d523bc1840b48ac92ddfe0ca8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764373218812076563, guid: d4b5a59d523bc1840b48ac92ddfe0ca8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8764473058345964675, guid: d4b5a59d523bc1840b48ac92ddfe0ca8, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8767152486562788127, guid: d4b5a59d523bc1840b48ac92ddfe0ca8, type: 3}
       propertyPath: m_LocalScale.x

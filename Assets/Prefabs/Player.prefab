@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2278944521550370925}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shell Spawn
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -52,7 +52,7 @@ GameObject:
   - component: {fileID: 3237237535127555077}
   - component: {fileID: 8764681313815544086}
   - component: {fileID: 4395007162428794383}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -240,6 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathVFX: {fileID: 5986355303718548694}
   animator: {fileID: 7755886878439127997}
+  lastDamageDealer: {fileID: 0}
 --- !u!114 &5573735959847896884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,6 +410,10 @@ PrefabInstance:
     - target: {fileID: 5985634496115995773, guid: 58c5da433943c8d46996915de9391a45, type: 3}
       propertyPath: m_Name
       value: Death_VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 5985634496115995773, guid: 58c5da433943c8d46996915de9391a45, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5985634496115995773, guid: 58c5da433943c8d46996915de9391a45, type: 3}
       propertyPath: m_IsActive
