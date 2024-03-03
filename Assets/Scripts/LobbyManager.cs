@@ -3,6 +3,7 @@ using Madhur.InfoPopup;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Net;
 using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -18,6 +19,7 @@ public class LobbyManager : MonoBehaviour
     [SerializeField] private Button clientButton;
     [SerializeField] private TMP_InputField addressInput;
     [SerializeField] private TMP_InputField portInput;
+    [SerializeField] private TMP_InputField localIpAddressText;
 
     private string ConnectionSettingsFilePath => Path.Combine(Application.dataPath, ConnectionConstants.ConnectionSettingsFileName);
     void Start()
@@ -25,6 +27,8 @@ public class LobbyManager : MonoBehaviour
         hostButton.onClick.AddListener(StartHost);
         clientButton.onClick.AddListener(StartClient);
 
+        localIpAddressText.readOnly = true;
+        localIpAddressText.text = GetLocalIpAddress();
         var connectionData = LoadConnectionData();
         addressInput.text = connectionData.Address;
         portInput.text = connectionData.Port.ToString();
@@ -54,7 +58,8 @@ public class LobbyManager : MonoBehaviour
     private void SetConnectionData()
     {
         var connectionData = new ConnectionAddressData { Address = addressInput.text, Port = ushort.Parse(portInput.text) };
-        NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData = connectionData;
+
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(connectionData.Address, connectionData.Port, "127.0.0.1");
         SaveConnectionData(connectionData);
     }
 
@@ -78,5 +83,19 @@ public class LobbyManager : MonoBehaviour
             InfoPopupUtil.ShowAlert("Please run game with admin rights! We cannot save connection settings...");
             throw exc;
         }
+    }
+
+    private string GetLocalIpAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        InfoPopupUtil.ShowAlert("No network adapters with IPv4 address were found in the system!");
+        return "Not found";
     }
 }
