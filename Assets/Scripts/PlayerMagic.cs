@@ -15,7 +15,7 @@ public class PlayerMagic : NetworkBehaviour
     [SerializeField] private Transform shieldSpawn;
     [SerializeField] private float stateDelay = 0.5f;
 
-    [SerializeField] private PlayerMagicState playerMagicState;
+    private PlayerMagicState playerMagicState;
     private Shield latestShield;
     private float shootDelayLeft = 0;
     private float stateDelayLeft = 0;

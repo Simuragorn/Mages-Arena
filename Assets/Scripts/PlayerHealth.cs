@@ -4,11 +4,18 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private ParticleSystem deathVFX;
+    [SerializeField] private ParticleSystem spawnVFX;
     [SerializeField] private Animator animator;
     private bool isDead = false;
+    private Player lastDamageDealer;
+    private Player player;
     public event EventHandler<Player> OnPlayerDead;
     public bool IsDead => isDead;
-    public Player lastDamageDealer;
+
+    private void Awake()
+    {
+        player = GetComponent<Player>();
+    }
 
     private void Update()
     {
@@ -19,8 +26,20 @@ public class PlayerHealth : MonoBehaviour
     }
     public void Resurrect()
     {
+        player.DisableControl();
+        StartResurrect();
+    }
+
+    private void StartResurrect()
+    {
         isDead = false;
-        deathVFX.gameObject.SetActive(false);
+        spawnVFX.gameObject.SetActive(true);
+        animator.SetInteger(Player.PlayerAnimationStateName, (int)PlayerAnimationState.Spawn);
+        spawnVFX.gameObject.SetActive(true);
+    }
+    public void CommitResurrect()
+    {
+        player.EnableControl();
     }
     public void GetDamage(Player damageDealer)
     {
@@ -28,7 +47,7 @@ public class PlayerHealth : MonoBehaviour
     }
     private void StartDeath(Player damageDealer)
     {
-        Player.LocalInstance.DisableControl();
+        player.DisableControl();
         isDead = true;
         animator.SetInteger(Player.PlayerAnimationStateName, (int)PlayerAnimationState.Death);
         deathVFX.gameObject.SetActive(true);

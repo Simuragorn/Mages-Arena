@@ -7,12 +7,14 @@ public enum PlayerAnimationState
 {
     Idle,
     Walking,
-    Death
+    Death,
+    Spawn,
 }
 
 public class Player : NetworkBehaviour
 {
     public const string PlayerAnimationStateName = "State";
+    [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Collider2D collider;
     [SerializeField] private PlayerHealth health;
     [SerializeField] private PlayerMovement movement;
@@ -31,10 +33,14 @@ public class Player : NetworkBehaviour
         return "Client";
     }
 
+    private void Awake()
+    {
+        sprite.enabled = false;
+    }
+
     public override void OnNetworkSpawn()
     {
         OwnerId = OwnerClientId;
-        Spawn();
         if (IsOwner)
         {
             health.OnPlayerDead += Health_OnPlayerDead;
@@ -42,6 +48,7 @@ public class Player : NetworkBehaviour
         }
         ArenaManager.Singleton.AddPlayer(this);
         Players.Add(this);
+        Spawn();
     }
 
     public override void OnNetworkDespawn()
@@ -52,21 +59,24 @@ public class Player : NetworkBehaviour
     public void Spawn()
     {
         transform.position = SpawnManager.Singleton.GetSpawnPointForPlayer((int)OwnerId);
+        sprite.enabled = true;
         health.Resurrect();
-
-        movement.enabled = true;
-        rotation.enabled = true;
-        magic.enabled = true;
-        collider.enabled = true;
     }
 
     private void Health_OnPlayerDead(object sender, Player killer)
     {
         if (IsOwner)
         {
-            DisableControl();
             ArenaManager.Singleton.PlayerDiedServerRpc(OwnerId, killer.OwnerId);
         }
+    }
+
+    public void EnableControl()
+    {
+        movement.enabled = true;
+        rotation.enabled = true;
+        magic.enabled = true;
+        collider.enabled = true;
     }
 
     public void DisableControl()

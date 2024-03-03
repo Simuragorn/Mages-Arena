@@ -39,6 +39,15 @@ public class ArenaManager : NetworkBehaviour
         Singleton = this;
         restartButton.onClick.AddListener(() => RestartServerRpc(RestartState.Game));
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     [ServerRpc(RequireOwnership = false)]
     private void RestartServerRpc(RestartState state)
     {
