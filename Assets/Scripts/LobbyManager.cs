@@ -59,7 +59,7 @@ public class LobbyManager : MonoBehaviour
     {
         var connectionData = new ConnectionAddressData { Address = addressInput.text, Port = ushort.Parse(portInput.text) };
 
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(connectionData.Address, connectionData.Port, "127.0.0.1");
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(connectionData.Address, connectionData.Port, "0.0.0.0");
         SaveConnectionData(connectionData);
     }
 
