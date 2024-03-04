@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8109458aa9cde554b8e2fa7464182651, type: 3}
+  m_Name: Electric
+  m_EditorClassIdentifier: 
+  type: 1
+  shellPrefab: {fileID: 8514374167204516036, guid: 51be12dce35b0ef4188bf14117b37c3e, type: 3}
+  shootDelay: 0.5
+  shootSpeed: 15
+  shootManaCost: 20
+  shieldPrefab: {fileID: 8825915594683022680, guid: 1d5e66b14b73c944f8d010f668b6db61, type: 3}
+  shieldDelay: 0.5
+  shieldManaCost: 2

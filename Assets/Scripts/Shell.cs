@@ -7,7 +7,7 @@ public class Shell : NetworkBehaviour
     [SerializeField] private ParticleSystem loopingVFX;
     [SerializeField] private ParticleSystem explosionVFX;
 
-    private MagicType magicType;
+    public MagicType MagicType { get; private set; }
 
     private bool isLaunched = false;
     private Player ownerPlayer;
@@ -16,7 +16,7 @@ public class Shell : NetworkBehaviour
     {
         ownerPlayer = sendingPlayer;
         isLaunched = true;
-        magicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
+        MagicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
     }
 
 
@@ -26,7 +26,7 @@ public class Shell : NetworkBehaviour
         {
             return;
         }
-        transform.Translate(magicType.ShootSpeed * Time.deltaTime * Vector2.up);
+        transform.Translate(MagicType.ShootSpeed * Time.deltaTime * Vector2.up);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -42,7 +42,11 @@ public class Shell : NetworkBehaviour
         }
         if (collision.CompareTag("Target"))
         {
-            DestroyShell();
+            Shield shield = collision.GetComponent<Shield>();
+            if (shield == null || shield.MagicType.Type == MagicType.Type)
+            {
+                DestroyShell();
+            }
         }
     }
 

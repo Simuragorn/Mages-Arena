@@ -4,7 +4,7 @@ using UnityEngine;
 public enum MagicTypeEnum
 {
     Fire,
-    Lightning
+    Electric
 }
 
 [CreateAssetMenu(menuName = "MagicType")]

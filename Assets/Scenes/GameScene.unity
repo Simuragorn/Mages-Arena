@@ -20228,6 +20228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magicTypes:
   - {fileID: 11400000, guid: f2e7d8fcf5f922444aa6a43371c4db38, type: 2}
+  - {fileID: 11400000, guid: e2848c2aacf019248b582f45f70fc478, type: 2}
 --- !u!4 &655511334
 Transform:
   m_ObjectHideFlags: 0

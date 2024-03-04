@@ -61,11 +61,26 @@ public class PlayerMagic : NetworkBehaviour
         {
             return;
         }
-
+        HandleMagicTypeChange();
         HandleState();
         HandleManaRegeneration();
         HandleShoot();
         HandleShield();
+    }
+
+    private void HandleMagicTypeChange()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            int magicTypeIndex = magicTypes.IndexOf(magicType);
+            magicTypeIndex++;
+            if (magicTypeIndex == magicTypes.Count)
+            {
+                magicTypeIndex = 0;
+            }
+            magicType = magicTypes[magicTypeIndex];
+
+        }
     }
 
     private void HandleManaRegeneration()
@@ -177,7 +192,7 @@ public class PlayerMagic : NetworkBehaviour
         var playerMagic = ownerObject.gameObject.GetComponent<PlayerMagic>();
         Transform shieldSpawn = playerMagic.shieldSpawn;
         var shield = shieldOject.GetComponent<Shield>();
-        shield.Launch(shieldSpawn);
+        shield.Launch(shieldSpawn, magicType.Type);
         playerMagic.SetNewShield(shield);
     }
 
