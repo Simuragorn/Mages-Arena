@@ -1,21 +1,22 @@
 using System.Linq;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
 
 public class Shell : NetworkBehaviour
 {
-    [SerializeField] private float speed = 20f;
     [SerializeField] private ParticleSystem loopingVFX;
     [SerializeField] private ParticleSystem explosionVFX;
+
+    private MagicType magicType;
 
     private bool isLaunched = false;
     private Player ownerPlayer;
 
-    public void Launch(Player sendingPlayer)
+    public void Launch(Player sendingPlayer, MagicTypeEnum magicTypeEnum)
     {
         ownerPlayer = sendingPlayer;
         isLaunched = true;
+        magicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
     }
 
 
@@ -25,7 +26,7 @@ public class Shell : NetworkBehaviour
         {
             return;
         }
-        transform.Translate(speed * Time.deltaTime * Vector2.up);
+        transform.Translate(magicType.ShootSpeed * Time.deltaTime * Vector2.up);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8109458aa9cde554b8e2fa7464182651, type: 3}
   m_Name: Fire
   m_EditorClassIdentifier: 
-  name: Fire
+  type: 0
   shellPrefab: {fileID: 5344298497322331694, guid: 6ac63b16d7ddbcf4babdffe133370624, type: 3}
-  shieldPrefab: {fileID: 5440310688993681877, guid: 5b06a365d40b27d4ba05434cb500469b, type: 3}
   shootDelay: 0.5
+  shootSpeed: 15
+  shootManaCost: 20
+  shieldPrefab: {fileID: 5440310688993681877, guid: 5b06a365d40b27d4ba05434cb500469b, type: 3}
   shieldDelay: 0.5
+  shieldManaCost: 2

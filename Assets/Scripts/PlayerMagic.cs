@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,12 +12,17 @@ public class PlayerMagic : NetworkBehaviour
         Shoot,
         Shield
     }
-
-    [SerializeField] private MagicType magicType;
     [SerializeField] private Transform shellSpawn;
     [SerializeField] private Transform shieldSpawn;
-    [SerializeField] private float stateDelay = 0.5f;
+    private MagicType magicType;
 
+    [SerializeField] private float stateDelay = 0.5f;
+    [SerializeField] private float maxMana = 100;
+    [SerializeField] private float manaRegeneration = 1.5f;
+
+    public float ActualMana { get; private set; }
+
+    private List<MagicType> magicTypes;
     private PlayerMagicState playerMagicState;
     private Shield latestShield;
     private float shootDelayLeft = 0;
@@ -22,6 +30,13 @@ public class PlayerMagic : NetworkBehaviour
     private bool shieldCreated = false;
 
     public Transform ShieldSpawn => shellSpawn;
+
+    private void Awake()
+    {
+        ActualMana = maxMana;
+        magicTypes = MagicTypesManager.Singleton.GetMagicTypes().ToList();
+        magicType = magicTypes.First();
+    }
 
     public void SetNewShield(Shield shield)
     {
@@ -41,8 +56,17 @@ public class PlayerMagic : NetworkBehaviour
         }
 
         HandleState();
+        HandleManaRegeneration();
         HandleShoot();
         HandleShield();
+    }
+
+    private void HandleManaRegeneration()
+    {
+        if (playerMagicState == PlayerMagicState.None)
+        {
+            ActualMana = Mathf.Min(ActualMana + manaRegeneration * Time.fixedDeltaTime, maxMana);
+        }
     }
 
     private void HandleState()
@@ -136,6 +160,6 @@ public class PlayerMagic : NetworkBehaviour
     {
         shellReference.TryGet(out NetworkObject shellObject);
         ownerReference.TryGet(out NetworkObject ownerObject);
-        shellObject.GetComponent<Shell>().Launch(ownerObject.GetComponent<Player>());
+        shellObject.GetComponent<Shell>().Launch(ownerObject.GetComponent<Player>(), magicType.Type);
     }
 }

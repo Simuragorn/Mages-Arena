@@ -15,6 +15,7 @@ public class LobbyManager : MonoBehaviour
 {
     [SerializeField] private Transform lobbyPanel;
     [SerializeField] private Transform scorePanel;
+    [SerializeField] private Transform playerUIPanel;
     [SerializeField] private Button hostButton;
     [SerializeField] private Button clientButton;
     [SerializeField] private TMP_InputField addressInput;
@@ -43,6 +44,7 @@ public class LobbyManager : MonoBehaviour
         Debug.Log("HOST");
         lobbyPanel.gameObject.SetActive(false);
         scorePanel.gameObject.SetActive(true);
+        playerUIPanel.gameObject.SetActive(true);
     }
 
     private void StartClient()
@@ -53,6 +55,7 @@ public class LobbyManager : MonoBehaviour
         Debug.Log("CLIENT");
         lobbyPanel.gameObject.SetActive(false);
         scorePanel.gameObject.SetActive(true);
+        playerUIPanel.gameObject.SetActive(true);
     }
 
     private void SetConnectionData()

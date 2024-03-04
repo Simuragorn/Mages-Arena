@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6261273868451009355}
   - component: {fileID: 372114045469714564}
   - component: {fileID: 3495114418510936346}
-  - component: {fileID: 5344298497322331694}
   - component: {fileID: 10045762048596}
+  - component: {fileID: 5344298497322331694}
   m_Layer: 7
   m_Name: FireShell
   m_TagString: Shell
@@ -93,21 +93,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &5344298497322331694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3195721964013325242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1c0573b63dd00141b3b41dbf52b153f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  loopingVFX: {fileID: 4144041174328884751}
-  explosionVFX: {fileID: 535292044333001234}
 --- !u!50 &10045762048596
 Rigidbody2D:
   serializedVersion: 4
@@ -135,6 +120,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5344298497322331694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3195721964013325242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c0573b63dd00141b3b41dbf52b153f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  loopingVFX: {fileID: 4144041174328884751}
+  explosionVFX: {fileID: 535292044333001234}
 --- !u!1001 &409156610928141680
 PrefabInstance:
   m_ObjectHideFlags: 0
