@@ -16,6 +16,6 @@ public class PlayerUI : MonoBehaviour
             }
             playerMagic = Player.LocalInstance.GetComponent<PlayerMagic>();
         }
-        manaText.text = $"Mana: {playerMagic.ActualMana}";
+        manaText.text = $"Mana: {Mathf.Round(playerMagic.ActualMana)}";
     }
 }
