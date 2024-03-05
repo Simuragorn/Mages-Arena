@@ -260,7 +260,7 @@ MonoBehaviour:
   shieldSpawn: {fileID: 5639722877567797351}
   stateDelay: 0
   maxMana: 100
-  manaRegeneration: 1.5
+  manaRegeneration: 5
 --- !u!114 &7035623470991228075
 MonoBehaviour:
   m_ObjectHideFlags: 0

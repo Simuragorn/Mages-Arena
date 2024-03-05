@@ -63,9 +63,17 @@ public class PlayerMagic : NetworkBehaviour
         }
         HandleMagicTypeChange();
         HandleState();
-        HandleManaRegeneration();
         HandleShoot();
         HandleShield();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!IsOwner)
+        {
+            return;
+        }
+        HandleManaRegeneration();
     }
 
     private void HandleMagicTypeChange()

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
@@ -18,23 +19,33 @@ public class Shell : NetworkBehaviour
     public MagicType MagicType { get; private set; }
 
     private bool isLaunched = false;
-    private bool isLeftPlayer = false;
     private int ricochetCountLeft;
     private Player ownerPlayer;
 
     public void Launch(Player sendingPlayer, MagicTypeEnum magicTypeEnum)
     {
-        collider.isTrigger = true;
+        collider.isTrigger = false;
         ownerPlayer = sendingPlayer;
         MagicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
         gameObject.layer = LayerMask.NameToLayer(MagicType.GetLayerName(magicTypeEnum, MagicEquipmentType.Shell));
         ricochetCountLeft = MagicType.RicochetCount;
         rigidbody.sharedMaterial = MagicType.ShellPhysicsMaterial;
-        rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
-
         isLaunched = true;
+
+        if (IsOwner)
+        {
+            rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
+        }
+
+        StartCoroutine(DelayForCollisionWithOwner());
     }
 
+    private IEnumerator DelayForCollisionWithOwner()
+    {
+        Physics2D.IgnoreCollision(ownerPlayer.GetComponent<Collider2D>(), collider);
+        yield return new WaitForSeconds(0.1f);
+        Physics2D.IgnoreCollision(ownerPlayer.GetComponent<Collider2D>(), collider, false);
+    }
 
     void Update()
     {
@@ -54,11 +65,8 @@ public class Shell : NetworkBehaviour
         HitType hitType = HitType.Impact;
         if (collisionObject.CompareTag("Player"))
         {
-            if (isLeftPlayer)
-            {
-                collisionObject.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
-                hitType = HitType.Destroy;
-            }
+            collisionObject.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
+            hitType = HitType.Destroy;
         }
         if (collisionObject.CompareTag("Target"))
         {
@@ -82,23 +90,10 @@ public class Shell : NetworkBehaviour
             ImpactEffects();
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            Player player = collision.GetComponent<Player>();
-            if (player == ownerPlayer)
-            {
-                isLeftPlayer = true;
-                collider.isTrigger = false;
-            }
-        }
-    }
 
     private void DestroyShell()
     {
         isLaunched = false;
-        isLeftPlayer = false;
         rigidbody.velocity = Vector2.zero;
         rigidbody.isKinematic = true;
         var loopingParticles = loopingVFX.GetComponentsInChildren<ParticleSystem>().ToList();
