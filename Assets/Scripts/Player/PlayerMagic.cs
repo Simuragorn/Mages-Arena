@@ -45,6 +45,11 @@ public class PlayerMagic : NetworkBehaviour
         ActualMana = Mathf.Min(ActualMana, maxMana);
     }
 
+    public void Refresh()
+    {
+        ActualMana = maxMana;
+    }
+
     public void SetNewShield(Shield shield)
     {
         LatestShield = shield;
@@ -151,7 +156,7 @@ public class PlayerMagic : NetworkBehaviour
     {
         if (LatestShield == null)
         {
-            ShieldServerRpc(gameObject.GetComponent<NetworkObject>(), magicType.Type);
+            ShieldServerRpc(GetComponent<NetworkObject>(), magicType.Type);
         }
     }
 

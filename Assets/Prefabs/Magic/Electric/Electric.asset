@@ -16,7 +16,7 @@ MonoBehaviour:
   shellPrefab: {fileID: 8514374167204516036, guid: 51be12dce35b0ef4188bf14117b37c3e, type: 3}
   shellPhysicsMaterial: {fileID: 6200000, guid: 869f011789cddd749ac57742e1378dc0, type: 2}
   shootDelay: 0.5
-  shootImpulse: 15
+  shootImpulse: 10
   shootManaCost: 20
   ricochetCount: 4
   shieldPrefab: {fileID: 8825915594683022680, guid: 1d5e66b14b73c944f8d010f668b6db61, type: 3}

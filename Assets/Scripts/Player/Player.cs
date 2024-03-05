@@ -54,13 +54,14 @@ public class Player : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         ArenaManager.Singleton.RemovePlayer(this);
-        Players.Remove(this);        
+        Players.Remove(this);
     }
 
     public void Spawn()
     {
         transform.position = SpawnManager.Singleton.GetSpawnPointForPlayer((int)OwnerId);
         sprite.enabled = true;
+        magic.Refresh();
         health.Resurrect();
     }
 

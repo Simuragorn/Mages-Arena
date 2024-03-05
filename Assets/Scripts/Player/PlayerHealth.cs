@@ -54,21 +54,17 @@ public class PlayerHealth : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     protected void GetDamageServerRpc(int playerIndex, int damageDealerIndex)
     {
-        Debug.Log("GetDamage");
         GetDamageClientRpc(playerIndex, damageDealerIndex);
     }
     [ClientRpc]
     protected void GetDamageClientRpc(int playerIndex, int damageDealerIndex)
     {
-        Debug.Log("GetDamageClientRpc");
-
         var player = Player.Players[playerIndex];
         var damageDealer = Player.Players[damageDealerIndex];
         player.GetComponent<PlayerHealth>().StartDeath(damageDealer);
     }
     public void StartDeath(Player damageDealer)
     {
-        Debug.Log("StartDeath");
         player.DisableControl();
         isDead = true;
         animator.SetInteger(Player.PlayerAnimationStateName, (int)PlayerAnimationState.Death);
@@ -79,7 +75,6 @@ public class PlayerHealth : NetworkBehaviour
     }
     public void CommitDeath()
     {
-        Debug.Log("CommitDeath");
         OnPlayerDead?.Invoke(this, lastDamageDealer);
     }
 }
