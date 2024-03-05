@@ -144,7 +144,7 @@ public class PlayerMagic : NetworkBehaviour
         if (!shieldCreated)
         {
             shieldCreated = true;
-            ShieldServerRpc(gameObject.GetComponent<NetworkObject>());
+            ShieldServerRpc(gameObject.GetComponent<NetworkObject>(), magicType.Type);
         }
     }
 
@@ -162,7 +162,7 @@ public class PlayerMagic : NetworkBehaviour
         if (shootDelayLeft <= 0 && ActualMana >= magicType.ShootManaCost)
         {
             playerMagicState = PlayerMagicState.Shoot;
-            ShootServerRpc(gameObject.GetComponent<NetworkObject>());
+            ShootServerRpc(gameObject.GetComponent<NetworkObject>(), magicType.Type);
             shootDelayLeft = magicType.ShootDelay;
             ChangeMana(-magicType.ShootManaCost);
         }
@@ -176,8 +176,10 @@ public class PlayerMagic : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ShieldServerRpc(NetworkObjectReference ownerReference)
+    private void ShieldServerRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
+        var magicTypes = MagicTypesManager.Singleton.GetMagicTypes();
+        var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
         var shield = Instantiate(magicType.ShieldPrefab, shieldSpawn.position, shieldSpawn.rotation);
         var shieldReference = shield.GetComponent<NetworkObject>();
         shieldReference.Spawn(true);
@@ -197,18 +199,23 @@ public class PlayerMagic : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ShootServerRpc(NetworkObjectReference ownerReference)
+    private void ShootServerRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
-        var shell = Instantiate(magicType.ShellPrefab, shellSpawn.position, shellSpawn.rotation);
+        var magicTypes = MagicTypesManager.Singleton.GetMagicTypes();
+        var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
+        var shell = Instantiate(actualMagicType.ShellPrefab, shellSpawn.position, shellSpawn.rotation);
         var shellReference = shell.GetComponent<NetworkObject>();
         shellReference.Spawn(true);
-        SetShellOwnerClientRpc(shellReference, ownerReference);
+        SetShellOwnerClientRpc(shellReference, ownerReference, magicTypeEnum);
     }
     [ClientRpc]
-    private void SetShellOwnerClientRpc(NetworkObjectReference shellReference, NetworkObjectReference ownerReference)
+    private void SetShellOwnerClientRpc(NetworkObjectReference shellReference, NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
+        var magicTypes = MagicTypesManager.Singleton.GetMagicTypes();
+        var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
+
         shellReference.TryGet(out NetworkObject shellObject);
         ownerReference.TryGet(out NetworkObject ownerObject);
-        shellObject.GetComponent<Shell>().Launch(ownerObject.GetComponent<Player>(), magicType.Type);
+        shellObject.GetComponent<Shell>().Launch(ownerObject.GetComponent<Player>(), actualMagicType.Type);
     }
 }
