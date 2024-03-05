@@ -57,6 +57,10 @@ public class Shell : NetworkBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!IsOwner)
+        {
+            return;
+        }
         var collisionObject = collision.gameObject;
         if (!isLaunched)
         {
