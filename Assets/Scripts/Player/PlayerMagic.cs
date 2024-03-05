@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMagic : NetworkBehaviour
@@ -24,10 +25,9 @@ public class PlayerMagic : NetworkBehaviour
 
     private List<MagicType> magicTypes;
     private PlayerMagicState playerMagicState;
-    private Shield latestShield;
+    public Shield LatestShield;
     private float shootDelayLeft = 0;
     private float stateDelayLeft = 0;
-    private bool shieldCreated = false;
 
     public Transform ShieldSpawn => shellSpawn;
 
@@ -47,7 +47,8 @@ public class PlayerMagic : NetworkBehaviour
 
     public void SetNewShield(Shield shield)
     {
-        latestShield = shield;
+        LatestShield = shield;
+        shield.gameObject.SetActive(true);
     }
 
     public void ResetState()
@@ -105,6 +106,12 @@ public class PlayerMagic : NetworkBehaviour
 
     private void HandleState()
     {
+        if (ActualMana <= 0)
+        {
+            ResetState();
+            return;
+        }
+
         stateDelayLeft = Mathf.Max(0, stateDelayLeft - Time.deltaTime);
         PlayerMagicState newState = PlayerMagicState.None;
         if (Input.GetButton("Fire1"))
@@ -123,11 +130,9 @@ public class PlayerMagic : NetworkBehaviour
         if (newState == PlayerMagicState.None ||
             (newState != playerMagicState && stateDelayLeft <= 0))
         {
-            if (latestShield != null)
+            if (LatestShield != null)
             {
-                DeleteShieldServerRpc(latestShield.GetComponent<NetworkObject>());
-                latestShield = null;
-                shieldCreated = false;
+                DeleteShieldServerRpc(GetComponent<NetworkObject>());
             }
             playerMagicState = newState;
             stateDelayLeft = stateDelay;
@@ -144,14 +149,8 @@ public class PlayerMagic : NetworkBehaviour
 
     private void TryUseShield()
     {
-        if (shieldCreated && ActualMana <= 0)
+        if (LatestShield == null)
         {
-            ResetState();
-            return;
-        }
-        if (!shieldCreated)
-        {
-            shieldCreated = true;
             ShieldServerRpc(gameObject.GetComponent<NetworkObject>(), magicType.Type);
         }
     }
@@ -179,30 +178,33 @@ public class PlayerMagic : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void DeleteShieldServerRpc(NetworkObjectReference ownerReference)
     {
-        ownerReference.TryGet(out NetworkObject shieldObject);
-        Destroy(shieldObject.gameObject);
+        DeleteShieldClientRpc(ownerReference);
+    }
+    [ClientRpc]
+    private void DeleteShieldClientRpc(NetworkObjectReference ownerReference)
+    {
+        ownerReference.TryGet(out NetworkObject ownerObject);
+        var playerMagic = ownerObject.GetComponent<PlayerMagic>();
+        if (playerMagic.LatestShield != null)
+        {
+            playerMagic.LatestShield.gameObject.SetActive(false);
+            playerMagic.LatestShield = null;
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void ShieldServerRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
-        var magicTypes = MagicTypesManager.Singleton.GetMagicTypes();
-        var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
-        var shield = Instantiate(magicType.ShieldPrefab, shieldSpawn.position, shieldSpawn.rotation);
-        var shieldReference = shield.GetComponent<NetworkObject>();
-        shieldReference.Spawn(true);
-        SetShieldOwnerClientRpc(shieldReference, ownerReference);
+        SetShieldOwnerClientRpc(ownerReference, magicTypeEnum);
     }
 
     [ClientRpc]
-    private void SetShieldOwnerClientRpc(NetworkObjectReference shieldReference, NetworkObjectReference ownerReference)
+    private void SetShieldOwnerClientRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
-        shieldReference.TryGet(out NetworkObject shieldOject);
+        Shield shield = shieldSpawn.GetComponentsInChildren<Shield>(true).First(s => s.MagicTypeEnum == magicTypeEnum);
+
         ownerReference.TryGet(out NetworkObject ownerObject);
         var playerMagic = ownerObject.gameObject.GetComponent<PlayerMagic>();
-        Transform shieldSpawn = playerMagic.shieldSpawn;
-        var shield = shieldOject.GetComponent<Shield>();
-        shield.Launch(shieldSpawn, magicType.Type);
         playerMagic.SetNewShield(shield);
     }
 

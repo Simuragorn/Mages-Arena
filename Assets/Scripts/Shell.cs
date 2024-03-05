@@ -36,6 +36,7 @@ public class Shell : NetworkBehaviour
         {
             rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
         }
+        rigidbody.useFullKinematicContacts = true;
 
         StartCoroutine(DelayForCollisionWithOwner());
     }
@@ -43,7 +44,7 @@ public class Shell : NetworkBehaviour
     private IEnumerator DelayForCollisionWithOwner()
     {
         Physics2D.IgnoreCollision(ownerPlayer.GetComponent<Collider2D>(), collider);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         Physics2D.IgnoreCollision(ownerPlayer.GetComponent<Collider2D>(), collider, false);
     }
 
@@ -63,22 +64,16 @@ public class Shell : NetworkBehaviour
         }
         ricochetCountLeft--;
         HitType hitType = HitType.Impact;
+
         if (collisionObject.CompareTag("Player"))
         {
             collisionObject.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
             hitType = HitType.Destroy;
         }
-        if (collisionObject.CompareTag("Target"))
+
+        if (ricochetCountLeft <= 0)
         {
-            Shield shield = collisionObject.GetComponent<Shield>();
-            if (shield != null && shield.MagicTypeValue.Type == MagicType.Type)
-            {
-                hitType = HitType.Destroy;
-            }
-            else if (ricochetCountLeft <= 0)
-            {
-                hitType = HitType.Destroy;
-            }
+            hitType = HitType.Destroy;
         }
 
         if (hitType == HitType.Destroy)
@@ -106,7 +101,7 @@ public class Shell : NetworkBehaviour
         DestroyEffects();
         if (IsServer)
         {
-            Destroy(gameObject, 3f);
+            Destroy(gameObject);
         }
     }
 
@@ -116,6 +111,8 @@ public class Shell : NetworkBehaviour
         {
             var impactVFXObject = Instantiate(impactVFX, transform.position, transform.rotation);
             impactVFXObject.GetComponent<NetworkObject>().Spawn();
+
+            Destroy(impactVFXObject.gameObject, 2f);
         }
     }
     public void DestroyEffects()
@@ -124,6 +121,8 @@ public class Shell : NetworkBehaviour
         {
             var destroyVFXObject = Instantiate(destroyVFX, transform.position, transform.rotation);
             destroyVFXObject.GetComponent<NetworkObject>().Spawn();
+
+            Destroy(destroyVFXObject.gameObject, 2f);
         }
     }
 }

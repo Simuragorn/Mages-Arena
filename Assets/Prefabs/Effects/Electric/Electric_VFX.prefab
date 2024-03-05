@@ -9762,7 +9762,7 @@ GameObject:
   - component: {fileID: 7322179318375408708}
   - component: {fileID: 9145206079937832025}
   - component: {fileID: 8764425833458658792}
-  - component: {fileID: 2533945375130649844}
+  - component: {fileID: -5726462819252693513}
   m_Layer: 0
   m_Name: Electric_VFX
   m_TagString: Untagged
@@ -14663,7 +14663,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2533945375130649844
+--- !u!114 &-5726462819252693513
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14710,11 +14710,11 @@ MonoBehaviour:
       m_RotationOrder: 4
     shakesDelay: 0
   animatedLights:
-  - light: {fileID: 0}
-    loop: 0
+  - light: {fileID: 1741693452841693106, guid: d4b5a59d523bc1840b48ac92ddfe0ca8, type: 3}
+    loop: 1
     animateIntensity: 1
-    intensityStart: 1
-    intensityEnd: 3
+    intensityStart: 4
+    intensityEnd: 2
     intensityDuration: 0
     intensityCurve:
       serializedVersion: 2
@@ -14723,11 +14723,11 @@ MonoBehaviour:
       m_PostInfinity: 0
       m_RotationOrder: 0
     perlinIntensity: 1
-    perlinIntensitySpeed: 6
-    fadeIn: 0
+    perlinIntensitySpeed: 8
+    fadeIn: 1
     fadeInDuration: 0.5
     fadeOut: 1
-    fadeOutDuration: 0.5
+    fadeOutDuration: 0.75
     animateRange: 0
     rangeStart: 0
     rangeEnd: 0
@@ -14739,7 +14739,7 @@ MonoBehaviour:
       m_PostInfinity: 0
       m_RotationOrder: 0
     perlinRange: 0
-    perlinRangeSpeed: 1
+    perlinRangeSpeed: 0
     animateColor: 0
     colorGradient:
       serializedVersion: 2
@@ -14779,5 +14779,5 @@ MonoBehaviour:
       m_PostInfinity: 0
       m_RotationOrder: 0
     perlinColor: 0
-    perlinColorSpeed: 1
+    perlinColorSpeed: 0
   fadeOutReference: {fileID: 9145206079937832025}

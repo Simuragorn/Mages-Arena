@@ -4920,8 +4920,8 @@ GameObject:
   - component: {fileID: 7672139811053004609}
   - component: {fileID: 845850286088753911}
   - component: {fileID: 2808651741900961297}
-  - component: {fileID: 4509530611751240509}
   - component: {fileID: 8812997968368100534}
+  - component: {fileID: 4597476279638186783}
   m_Layer: 0
   m_Name: ElectricDestroy_VFX
   m_TagString: Untagged
@@ -9931,7 +9931,28 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &4509530611751240509
+--- !u!114 &8812997968368100534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3592270322296565135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1997795459
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &4597476279638186783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9945,13 +9966,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clearBehavior: 1
   cameraShake:
-    enabled: 1
+    enabled: 0
     useMainCamera: 1
     cameras: []
     delay: 0
-    duration: 0.5
+    duration: 1
     shakeSpace: 0
-    shakeStrength: {x: 0.1, y: 0.1, z: 0.3}
+    shakeStrength: {x: 0.1, y: 0.1, z: 0.1}
     shakeCurve:
       serializedVersion: 2
       m_Curve:
@@ -9978,60 +9999,24 @@ MonoBehaviour:
       m_RotationOrder: 4
     shakesDelay: 0
   animatedLights:
-  - light: {fileID: 0}
-    loop: 0
+  - light: {fileID: 1741693452841693106, guid: d4b5a59d523bc1840b48ac92ddfe0ca8, type: 3}
+    loop: 1
     animateIntensity: 1
-    intensityStart: 5
-    intensityEnd: 0
-    intensityDuration: 1.2
+    intensityStart: 4
+    intensityEnd: 2
+    intensityDuration: 0
     intensityCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 14.66664
-        outSlope: 14.66664
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.09090909
-      - serializedVersion: 3
-        time: 0.099999994
-        value: 0.5
-        inSlope: 0.04210377
-        outSlope: -9.333345
-        tangentMode: 1
-        weightedMode: 0
-        inWeight: 0.47124305
-        outWeight: 0.07142861
-      - serializedVersion: 3
-        time: 0.29999998
-        value: 1
-        inSlope: 7.3524127
-        outSlope: -4.2777843
-        tangentMode: 1
-        weightedMode: 0
-        inWeight: 0.10389597
-        outWeight: 0.027829321
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.046567023
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
       m_RotationOrder: 0
-    perlinIntensity: 0
-    perlinIntensitySpeed: 10
-    fadeIn: 0
+    perlinIntensity: 1
+    perlinIntensitySpeed: 8
+    fadeIn: 1
     fadeInDuration: 0.5
-    fadeOut: 0
-    fadeOutDuration: 0.5
+    fadeOut: 1
+    fadeOutDuration: 0.75
     animateRange: 0
     rangeStart: 0
     rangeEnd: 0
@@ -10043,7 +10028,7 @@ MonoBehaviour:
       m_PostInfinity: 0
       m_RotationOrder: 0
     perlinRange: 0
-    perlinRangeSpeed: 1
+    perlinRangeSpeed: 0
     animateColor: 0
     colorGradient:
       serializedVersion: 2
@@ -10083,29 +10068,8 @@ MonoBehaviour:
       m_PostInfinity: 0
       m_RotationOrder: 0
     perlinColor: 0
-    perlinColorSpeed: 1
-  fadeOutReference: {fileID: 0}
---- !u!114 &8812997968368100534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3592270322296565135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1997795459
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
+    perlinColorSpeed: 0
+  fadeOutReference: {fileID: 845850286088753911}
 --- !u!1 &4707937984184344829
 GameObject:
   m_ObjectHideFlags: 0

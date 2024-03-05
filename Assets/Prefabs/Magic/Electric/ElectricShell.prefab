@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3913750892661559239}
   - component: {fileID: 8514374167204516036}
   - component: {fileID: 1558354146336022274}
-  - component: {fileID: 5873599149075131192}
+  - component: {fileID: 447833187631313826}
   m_Layer: 0
   m_Name: ElectricShell
   m_TagString: Shell
@@ -83,7 +83,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 2295601273326041025}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -167,9 +167,9 @@ MonoBehaviour:
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
---- !u!114 &5873599149075131192
+--- !u!114 &447833187631313826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

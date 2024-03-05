@@ -9974,7 +9974,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     perlinColor: 0
     perlinColorSpeed: 1
-  fadeOutReference: {fileID: 0}
+  fadeOutReference: {fileID: 2843034073906426538}
 --- !u!114 &-1505333154985255229
 MonoBehaviour:
   m_ObjectHideFlags: 0
