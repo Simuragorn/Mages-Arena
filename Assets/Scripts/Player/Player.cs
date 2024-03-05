@@ -53,7 +53,8 @@ public class Player : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        Players.Remove(this);
+        ArenaManager.Singleton.RemovePlayer(this);
+        Players.Remove(this);        
     }
 
     public void Spawn()

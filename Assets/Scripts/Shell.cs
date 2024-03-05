@@ -2,50 +2,95 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
+public enum HitType
+{
+    Impact,
+    Destroy
+}
 public class Shell : NetworkBehaviour
 {
     [SerializeField] private ParticleSystem loopingVFX;
-    [SerializeField] private ParticleSystem explosionVFX;
+    [SerializeField] private ParticleSystem destroyVFX;
+    [SerializeField] private ParticleSystem impactVFX;
+    [SerializeField] private Rigidbody2D rigidbody;
+    [SerializeField] private Collider2D collider;
 
     public MagicType MagicType { get; private set; }
 
     private bool isLaunched = false;
+    private bool isLeftPlayer = false;
+    private int ricochetCountLeft;
     private Player ownerPlayer;
 
     public void Launch(Player sendingPlayer, MagicTypeEnum magicTypeEnum)
     {
+        collider.isTrigger = true;
         ownerPlayer = sendingPlayer;
-        isLaunched = true;
         MagicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
+        gameObject.layer = LayerMask.NameToLayer(MagicType.GetLayerName(magicTypeEnum, MagicEquipmentType.Shell));
+        ricochetCountLeft = MagicType.RicochetCount;
+        rigidbody.sharedMaterial = MagicType.ShellPhysicsMaterial;
+        rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
+
+        isLaunched = true;
     }
 
 
     void Update()
     {
-        if (!isLaunched)
+        if (!IsOwner)
         {
             return;
         }
-        transform.Translate(MagicType.ShootSpeed * Time.deltaTime * Vector2.up);
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
+        var collisionObject = collision.gameObject;
         if (!isLaunched)
         {
             return;
         }
-        if (collision.CompareTag("Player") && ownerPlayer != collision.gameObject.GetComponent<Player>())
+        ricochetCountLeft--;
+        HitType hitType = HitType.Impact;
+        if (collisionObject.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
+            if (isLeftPlayer)
+            {
+                collisionObject.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
+                hitType = HitType.Destroy;
+            }
+        }
+        if (collisionObject.CompareTag("Target"))
+        {
+            Shield shield = collisionObject.GetComponent<Shield>();
+            if (shield != null && shield.MagicTypeValue.Type == MagicType.Type)
+            {
+                hitType = HitType.Destroy;
+            }
+            else if (ricochetCountLeft <= 0)
+            {
+                hitType = HitType.Destroy;
+            }
+        }
+
+        if (hitType == HitType.Destroy)
+        {
             DestroyShell();
         }
-        if (collision.CompareTag("Target"))
+        else if (hitType == HitType.Impact)
         {
-            Shield shield = collision.GetComponent<Shield>();
-            if (shield == null || shield.MagicType.Type == MagicType.Type)
+            ImpactEffects();
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Player player = collision.GetComponent<Player>();
+            if (player == ownerPlayer)
             {
-                DestroyShell();
+                isLeftPlayer = true;
+                collider.isTrigger = false;
             }
         }
     }
@@ -53,7 +98,9 @@ public class Shell : NetworkBehaviour
     private void DestroyShell()
     {
         isLaunched = false;
-
+        isLeftPlayer = false;
+        rigidbody.velocity = Vector2.zero;
+        rigidbody.isKinematic = true;
         var loopingParticles = loopingVFX.GetComponentsInChildren<ParticleSystem>().ToList();
         loopingParticles.Add(loopingVFX);
         loopingParticles.ForEach(particle =>
@@ -61,19 +108,27 @@ public class Shell : NetworkBehaviour
             var main = particle.main;
             main.loop = false;
         });
-
-        explosionVFX.gameObject.SetActive(true);
+        DestroyEffects();
         if (IsServer)
         {
             Destroy(gameObject, 3f);
         }
-        //DestroyShellServerRpc(GetComponent<NetworkObject>());
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void DestroyShellServerRpc(NetworkObjectReference shellReference)
+    public void ImpactEffects()
     {
-        shellReference.TryGet(out NetworkObject shell);
-        Destroy(shell.gameObject, 3f);
+        if (IsServer)
+        {
+            var impactVFXObject = Instantiate(impactVFX, transform.position, transform.rotation);
+            impactVFXObject.GetComponent<NetworkObject>().Spawn();
+        }
+    }
+    public void DestroyEffects()
+    {
+        if (IsServer)
+        {
+            var destroyVFXObject = Instantiate(destroyVFX, transform.position, transform.rotation);
+            destroyVFXObject.GetComponent<NetworkObject>().Spawn();
+        }
     }
 }

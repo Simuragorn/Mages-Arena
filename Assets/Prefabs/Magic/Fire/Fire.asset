@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   shellPrefab: {fileID: 5344298497322331694, guid: 6ac63b16d7ddbcf4babdffe133370624, type: 3}
+  shellPhysicsMaterial: {fileID: 6200000, guid: d3cdeae8fb5bc0d4d835e9038cbd9ad0, type: 2}
   shootDelay: 0.5
-  shootSpeed: 15
+  shootImpulse: 15
   shootManaCost: 20
+  ricochetCount: 0
   shieldPrefab: {fileID: 5440310688993681877, guid: 5b06a365d40b27d4ba05434cb500469b, type: 3}
   shieldDelay: 0.5
   shieldManaCost: 2

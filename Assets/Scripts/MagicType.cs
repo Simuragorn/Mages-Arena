@@ -7,26 +7,45 @@ public enum MagicTypeEnum
     Electric
 }
 
+public enum MagicEquipmentType
+{
+    Shell,
+    Shield
+}
+
 [CreateAssetMenu(menuName = "MagicType")]
 public class MagicType : ScriptableObject
 {
     [SerializeField] private MagicTypeEnum type;
 
     [SerializeField] private Shell shellPrefab;
+    [SerializeField] private PhysicsMaterial2D shellPhysicsMaterial;
     [SerializeField] private float shootDelay;
-    [SerializeField] private float shootSpeed;
+    [SerializeField] private float shootImpulse;
     [SerializeField] private float shootManaCost;
+    [SerializeField] private int ricochetCount;
 
-    [SerializeField] private Shield shieldPrefab;    
+    [SerializeField] private Shield shieldPrefab;
     [SerializeField] private float shieldDelay;
     [SerializeField] private float shieldManaCost;
 
     public MagicTypeEnum Type => type;
+
     public Shell ShellPrefab => shellPrefab;
-    public Shield ShieldPrefab => shieldPrefab;
+    public PhysicsMaterial2D ShellPhysicsMaterial => shellPhysicsMaterial;
     public float ShootDelay => shootDelay;
-    public float ShieldDelay => shieldDelay;
-    public float ShootSpeed => shootSpeed;
+    public float ShootImpulse => shootImpulse;
     public float ShootManaCost => shootManaCost;
+    public int RicochetCount => ricochetCount;
+
+
+    public Shield ShieldPrefab => shieldPrefab;
+    public float ShieldDelay => shieldDelay;
     public float ShieldManaCost => shieldManaCost;
+
+    public static string GetLayerName(MagicTypeEnum magicType, MagicEquipmentType equipmentType)
+    {
+        string layerName = $"{magicType}_{equipmentType}";
+        return layerName;
+    }
 }

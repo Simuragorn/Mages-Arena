@@ -7,6 +7,7 @@ TagManager:
   - FxTemporaire
   - Target
   - Shell
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -15,11 +16,11 @@ TagManager:
   - Water
   - UI
   - Player
-  - FireShell
-  - FireShield
+  - Fire_Shell
+  - Fire_Shield
   - Target
-  - 
-  - 
+  - Electric_Shield
+  - Electric_Shell
   - 
   - 
   - 

@@ -256,8 +256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8911296b335a0418cf8ed4d9260d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magicTypes:
-  - {fileID: 11400000, guid: f2e7d8fcf5f922444aa6a43371c4db38, type: 2}
   shellSpawn: {fileID: 2278944521550370925}
   shieldSpawn: {fileID: 5639722877567797351}
   stateDelay: 0
@@ -370,7 +368,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8717618560549236206}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

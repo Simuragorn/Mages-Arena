@@ -409,6 +409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 15495060}
   - component: {fileID: 15495061}
+  - component: {fileID: 15495062}
   m_Layer: 9
   m_Name: BottomWall
   m_TagString: Target
@@ -476,6 +477,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 16, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &15495062
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15495059}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &40005264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2221,6 +2249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 223538897}
   - component: {fileID: 223538898}
+  - component: {fileID: 223538899}
   m_Layer: 9
   m_Name: LeftWall
   m_TagString: Target
@@ -2288,6 +2317,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 16}
   m_EdgeRadius: 0
+--- !u!50 &223538899
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223538896}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &237252713 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 490153613568074068, guid: be26733893c2e4e4f8be90d1041ed24d, type: 3}
@@ -17538,6 +17594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 367913260}
   - component: {fileID: 367913261}
+  - component: {fileID: 367913262}
   m_Layer: 9
   m_Name: RightWall
   m_TagString: Target
@@ -17605,6 +17662,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 16}
   m_EdgeRadius: 0
+--- !u!50 &367913262
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367913259}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &372637344 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9163685021759536601, guid: 8f408779fa2fd3c4d8c9004362cde3bc, type: 3}
@@ -27164,6 +27248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2050708979}
   - component: {fileID: 2050708980}
+  - component: {fileID: 2050708981}
   m_Layer: 9
   m_Name: TopWall
   m_TagString: Target
@@ -27231,6 +27316,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 16, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &2050708981
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050708978}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &2062026918
 PrefabInstance:
   m_ObjectHideFlags: 0
