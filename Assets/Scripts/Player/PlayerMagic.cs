@@ -83,6 +83,7 @@ public class PlayerMagic : NetworkBehaviour
 
     public void Refresh()
     {
+        magicType = magicTypes.First();
         ActualMana = maxMana;
     }
 

@@ -91,6 +91,10 @@ public class Shell : NetworkBehaviour
 
     public Transform FindClosestTarget()
     {
+        if (Player.Players == null)
+        {
+            return null;
+        }
         var distances = Player.Players.Where(p => p != null && p != ownerPlayer).Select(player => new
         {
             Player = player,

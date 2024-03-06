@@ -84,7 +84,7 @@ public class ArenaManager : NetworkBehaviour
             victoryText.text = $"{winner.Player.GetName()} won!";
             return;
         }
-        if (activePlayers.Count <= 1 && allPlayerScores.Count > 1)
+        if (activePlayers.Count <= 1)
         {
             RestartClientRpc(RestartState.Round);
         }
