@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3795330744310497090}
   - component: {fileID: 475484038761086182}
-  - component: {fileID: 2006624851633939850}
   - component: {fileID: 5440310688993681877}
   - component: {fileID: 1427822421713290728}
   m_Layer: 0
@@ -71,27 +70,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.02796658, y: 0.35708886}
   m_Size: {x: 0.7804005, y: 0.49424225}
   m_Direction: 1
---- !u!114 &2006624851633939850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6453694772981515803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2301453227
-  InScenePlacedSourceGlobalObjectIdHash: 2301453227
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &5440310688993681877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +82,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b176f5d1e182a6f4e8f2fd871d9cd854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collider: {fileID: 475484038761086182}
   magicTypeEnum: 0
+  shieldVFX: {fileID: 6836088608357291060}
 --- !u!50 &1427822421713290728
 Rigidbody2D:
   serializedVersion: 4
@@ -244,5 +224,10 @@ PrefabInstance:
 --- !u!4 &6634214562217019186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4464497929771776, guid: 6e671e7ec505ed240b004d96a8763895, type: 3}
+  m_PrefabInstance: {fileID: 6637930441705724978}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6836088608357291060 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198159274938206214, guid: 6e671e7ec505ed240b004d96a8763895, type: 3}
   m_PrefabInstance: {fileID: 6637930441705724978}
   m_PrefabAsset: {fileID: 0}

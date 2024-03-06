@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 343061556966065935}
   - component: {fileID: 5988474157336713208}
-  - component: {fileID: 2025622656661139425}
   - component: {fileID: 8825915594683022680}
   - component: {fileID: 4906309929097251861}
   m_Layer: 0
@@ -71,27 +70,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.02796658, y: 0.35708886}
   m_Size: {x: 0.7804005, y: 0.49424225}
   m_Direction: 1
---- !u!114 &2025622656661139425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2060986590680098680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3334265730
-  InScenePlacedSourceGlobalObjectIdHash: 2301453227
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &8825915594683022680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +82,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b176f5d1e182a6f4e8f2fd871d9cd854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magicTypeEnum: 0
+  collider: {fileID: 5988474157336713208}
+  magicTypeEnum: 1
+  shieldVFX: {fileID: 1769779823022053939}
 --- !u!50 &4906309929097251861
 Rigidbody2D:
   serializedVersion: 4
@@ -201,6 +181,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fca24db5f0a58c546806a657589bc382, type: 3}
+--- !u!198 &1769779823022053939 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7972507624891145521, guid: fca24db5f0a58c546806a657589bc382, type: 3}
+  m_PrefabInstance: {fileID: 8515053651941181186}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8390439185008078262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 169834781481396916, guid: fca24db5f0a58c546806a657589bc382, type: 3}

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMagic : NetworkBehaviour
@@ -20,6 +18,7 @@ public class PlayerMagic : NetworkBehaviour
     [SerializeField] private float stateDelay = 0.5f;
     [SerializeField] private float maxMana = 100;
     [SerializeField] private float manaRegeneration = 1.5f;
+    [SerializeField] private float minManaForShieldSpawn = 2f;
 
     public float ActualMana { get; private set; }
 
@@ -53,7 +52,7 @@ public class PlayerMagic : NetworkBehaviour
     public void SetNewShield(Shield shield)
     {
         LatestShield = shield;
-        shield.gameObject.SetActive(true);
+        shield.Activate();
     }
 
     public void ResetState()
@@ -154,7 +153,7 @@ public class PlayerMagic : NetworkBehaviour
 
     private void TryUseShield()
     {
-        if (LatestShield == null)
+        if (LatestShield == null && ActualMana >= minManaForShieldSpawn)
         {
             ShieldServerRpc(GetComponent<NetworkObject>(), magicType.Type);
         }
@@ -192,7 +191,7 @@ public class PlayerMagic : NetworkBehaviour
         var playerMagic = ownerObject.GetComponent<PlayerMagic>();
         if (playerMagic.LatestShield != null)
         {
-            playerMagic.LatestShield.gameObject.SetActive(false);
+            playerMagic.LatestShield.Deactivate();
             playerMagic.LatestShield = null;
         }
     }
