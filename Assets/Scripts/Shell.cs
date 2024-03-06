@@ -27,6 +27,7 @@ public class Shell : NetworkBehaviour
         collider.isTrigger = false;
         ownerPlayer = sendingPlayer;
         MagicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
+        transform.rotation = transform.rotation * Quaternion.AngleAxis(Random.Range(-MagicType.ShootSpreadAngle / 2, MagicType.ShootSpreadAngle / 2), Vector3.forward);
         gameObject.layer = LayerMask.NameToLayer(MagicType.GetLayerName(magicTypeEnum, MagicEquipmentType.Shell));
         ricochetCountLeft = MagicType.RicochetCount;
         rigidbody.sharedMaterial = MagicType.ShellPhysicsMaterial;

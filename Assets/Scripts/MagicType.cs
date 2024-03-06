@@ -24,6 +24,7 @@ public class MagicType : ScriptableObject
     [SerializeField] private float shootImpulse;
     [SerializeField] private float shootManaCost;
     [SerializeField] private int ricochetCount;
+    [SerializeField] private float shootSpreadAngle;
 
     [SerializeField] private Shield shieldPrefab;
     [SerializeField] private float shieldDelay;
@@ -37,6 +38,7 @@ public class MagicType : ScriptableObject
     public float ShootImpulse => shootImpulse;
     public float ShootManaCost => shootManaCost;
     public int RicochetCount => ricochetCount;
+    public float ShootSpreadAngle => shootSpreadAngle;
 
 
     public Shield ShieldPrefab => shieldPrefab;
