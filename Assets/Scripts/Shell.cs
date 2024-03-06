@@ -58,6 +58,15 @@ public class Shell : NetworkBehaviour
             return;
         }
         isActivated = true;
+
+        Transform target = FindClosestTarget();
+        if (target != null)
+        {
+            rigidbody.velocity = Vector3.zero;
+            Vector2 direction = (target.position - transform.position).normalized;
+            rigidbody.AddForce(MagicType.ShootImpulse * direction, ForceMode2D.Impulse);
+        }
+
         if (loopingVFX != null && activatedLoopingVFX != null)
         {
             loopingVFX.gameObject.SetActive(false);
@@ -78,6 +87,22 @@ public class Shell : NetworkBehaviour
         {
             return;
         }
+    }
+
+    public Transform FindClosestTarget()
+    {
+        var distances = Player.Players.Where(p => p != null && p != ownerPlayer).Select(player => new
+        {
+            Player = player,
+            Distance = Vector2.Distance(player.transform.position, transform.position)
+        });
+
+        var closestPlayer = distances.OrderBy(d => d.Distance).FirstOrDefault();
+        if (closestPlayer == null)
+        {
+            return null;
+        }
+        return closestPlayer.Player.transform;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
