@@ -28,6 +28,8 @@ public class PlayerMagic : NetworkBehaviour
     private float shootDelayLeft = 0;
     private float stateDelayLeft = 0;
 
+    private List<Shell> activatableShells = new List<Shell>();
+
     public Transform ShieldSpawn => shellSpawn;
 
     private void Awake()
@@ -42,6 +44,41 @@ public class PlayerMagic : NetworkBehaviour
         ActualMana += change;
         ActualMana = Mathf.Max(ActualMana, 0);
         ActualMana = Mathf.Min(ActualMana, maxMana);
+    }
+
+    public void AddActivatableShell(Shell shell)
+    {
+        activatableShells.Add(shell);
+    }
+
+    public void RemoveActivatableShell(Shell shell)
+    {
+        activatableShells.Remove(shell);
+    }
+
+    private void HandleShellsActivation()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            activatableShells = activatableShells.Where(s => s != null).ToList();
+            if (activatableShells.Any())
+            {
+                ActivateShellsServerRpc(OwnerClientId);
+            }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ActivateShellsServerRpc(ulong ownerClientId)
+    {
+        ActiveShellsClientRpc(ownerClientId);
+    }
+    [ClientRpc]
+    private void ActiveShellsClientRpc(ulong ownerClientId)
+    {
+        var playerMagic = Player.Players.First(p => p.OwnerClientId == ownerClientId).GetComponent<PlayerMagic>();
+        playerMagic.activatableShells.ForEach(s => s.Activate());
+        playerMagic.activatableShells.Clear();
     }
 
     public void Refresh()
@@ -66,6 +103,7 @@ public class PlayerMagic : NetworkBehaviour
         {
             return;
         }
+        HandleShellsActivation();
         HandleMagicTypeChange();
         HandleState();
         HandleShoot();

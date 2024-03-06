@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8109458aa9cde554b8e2fa7464182651, type: 3}
+  m_Name: Light
+  m_EditorClassIdentifier: 
+  type: 2
+  shellPrefab: {fileID: 8514374167204516036, guid: a95488e790c739b4dbc9b96e087fd10e, type: 3}
+  shellPhysicsMaterial: {fileID: 6200000, guid: 39c9dc4016c98a14797b244ba8349979, type: 2}
+  shootDelay: 0.5
+  shootImpulse: 5
+  shootManaCost: 10
+  ricochetCount: 0
+  shootSpreadAngle: 0
+  isActivatableShoot: 1
+  shieldPrefab: {fileID: 8825915594683022680, guid: 96dde1c5cefd66543833e9ed88a912cb, type: 3}
+  shieldDelay: 0.5
+  shieldManaCost: 2

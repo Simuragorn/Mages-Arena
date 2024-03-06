@@ -11,6 +11,7 @@ public enum HitType
 public class Shell : NetworkBehaviour
 {
     [SerializeField] private ParticleSystem loopingVFX;
+    [SerializeField] private ParticleSystem activatedLoopingVFX;
     [SerializeField] private ParticleSystem destroyVFX;
     [SerializeField] private ParticleSystem impactVFX;
     [SerializeField] private Rigidbody2D rigidbody;
@@ -21,6 +22,8 @@ public class Shell : NetworkBehaviour
     private bool isLaunched = false;
     private int ricochetCountLeft;
     private Player ownerPlayer;
+    private bool IsActivatable;
+    private bool isActivated;
 
     public void Launch(Player sendingPlayer, MagicTypeEnum magicTypeEnum)
     {
@@ -28,6 +31,7 @@ public class Shell : NetworkBehaviour
         ownerPlayer = sendingPlayer;
         MagicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
         transform.rotation = transform.rotation * Quaternion.AngleAxis(Random.Range(-MagicType.ShootSpreadAngle / 2, MagicType.ShootSpreadAngle / 2), Vector3.forward);
+        IsActivatable = MagicType.IsActivatableShoot;
         gameObject.layer = LayerMask.NameToLayer(MagicType.GetLayerName(magicTypeEnum, MagicEquipmentType.Shell));
         ricochetCountLeft = MagicType.RicochetCount;
         rigidbody.sharedMaterial = MagicType.ShellPhysicsMaterial;
@@ -38,8 +42,27 @@ public class Shell : NetworkBehaviour
             rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
         }
         rigidbody.useFullKinematicContacts = true;
+        if (IsActivatable)
+        {
+            sendingPlayer.GetComponent<PlayerMagic>().AddActivatableShell(this);
+            activatedLoopingVFX.gameObject.SetActive(false);
+        }
 
         StartCoroutine(DelayForCollisionWithOwner());
+    }
+
+    public void Activate()
+    {
+        if (isActivated || !isLaunched)
+        {
+            return;
+        }
+        isActivated = true;
+        if (loopingVFX != null && activatedLoopingVFX != null)
+        {
+            loopingVFX.gameObject.SetActive(false);
+            activatedLoopingVFX.gameObject.SetActive(true);
+        }
     }
 
     private IEnumerator DelayForCollisionWithOwner()
@@ -104,6 +127,10 @@ public class Shell : NetworkBehaviour
             main.loop = false;
         });
         DestroyEffects();
+        if (IsActivatable)
+        {
+            ownerPlayer.GetComponent<PlayerMagic>().RemoveActivatableShell(this);
+        }
         if (IsServer)
         {
             Destroy(gameObject);

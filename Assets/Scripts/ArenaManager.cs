@@ -112,7 +112,7 @@ public class ArenaManager : NetworkBehaviour
     [ClientRpc]
     private void PlayerDiedClientRpc(ulong deadPlayerOwnerId, ulong killerOwnerId)
     {
-        var killerScore = allPlayerScores.First(p => p.Player.OwnerId == killerOwnerId);
+        var killerScore = allPlayerScores.First(p => p.Player.OwnerClientId == killerOwnerId);
         if (deadPlayerOwnerId == killerOwnerId)
         {
             killerScore.Score--;
@@ -121,6 +121,6 @@ public class ArenaManager : NetworkBehaviour
         {
             killerScore.Score++;
         }
-        activePlayers.RemoveAll(p => p.OwnerId == deadPlayerOwnerId);
+        activePlayers.RemoveAll(p => p.OwnerClientId == deadPlayerOwnerId);
     }
 }

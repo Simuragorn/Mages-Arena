@@ -22,11 +22,10 @@ public class Player : NetworkBehaviour
     [SerializeField] private PlayerMagic magic;
     public static Player LocalInstance { get; private set; }
     public static List<Player> Players { get; private set; } = new List<Player>();
-    public ulong OwnerId { get; private set; }
 
     public string GetName()
     {
-        if (OwnerId == 0)
+        if (OwnerClientId == 0)
         {
             return "Host";
         }
@@ -40,7 +39,6 @@ public class Player : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        OwnerId = OwnerClientId;
         if (IsOwner)
         {
             health.OnPlayerDead += Health_OnPlayerDead;
@@ -59,7 +57,7 @@ public class Player : NetworkBehaviour
 
     public void Spawn()
     {
-        transform.position = SpawnManager.Singleton.GetSpawnPointForPlayer((int)OwnerId);
+        transform.position = SpawnManager.Singleton.GetSpawnPointForPlayer((int)OwnerClientId);
         sprite.enabled = true;
         magic.Refresh();
         health.Resurrect();
@@ -69,7 +67,7 @@ public class Player : NetworkBehaviour
     {
         if (IsOwner)
         {
-            ArenaManager.Singleton.PlayerDiedServerRpc(OwnerId, killer.OwnerId);
+            ArenaManager.Singleton.PlayerDiedServerRpc(OwnerClientId, killer.OwnerClientId);
         }
     }
 
