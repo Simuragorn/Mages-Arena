@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,21 +15,23 @@ public class Player : NetworkBehaviour
 {
     public const string PlayerAnimationStateName = "State";
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Animator animator;
     [SerializeField] private Collider2D collider;
     [SerializeField] private PlayerHealth health;
     [SerializeField] private PlayerMovement movement;
     [SerializeField] private PlayerRotation rotation;
     [SerializeField] private PlayerMagic magic;
+    private PlayerIdentity identity;
     public static Player LocalInstance { get; private set; }
     public static List<Player> Players { get; private set; } = new List<Player>();
 
     public string GetName()
     {
-        if (OwnerClientId == 0)
+        if (identity != null)
         {
-            return "Host";
+            return identity.Name;
         }
-        return "Client";
+        return OwnerClientId == 0 ? "Host" : "Client";
     }
 
     private void Awake()
@@ -44,8 +46,10 @@ public class Player : NetworkBehaviour
             health.OnPlayerDead += Health_OnPlayerDead;
             LocalInstance = this;
         }
-        ArenaManager.Singleton.AddPlayer(this);
         Players.Add(this);
+        var identities = PlayersIdentityManager.Singleton.GetPlayerIdentities();
+        identity = identities.FirstOrDefault(i => i.Index == Players.Count - 1);
+        ArenaManager.Singleton.AddPlayer(this);
         Spawn();
     }
 
@@ -57,7 +61,9 @@ public class Player : NetworkBehaviour
 
     public void Spawn()
     {
-        transform.position = SpawnManager.Singleton.GetSpawnPointForPlayer((int)OwnerClientId);
+        transform.position = SpawnManager.Singleton.GetSpawnPointForPlayer(identity.Index);
+        animator.runtimeAnimatorController = identity.Animator;
+        sprite.sprite = identity.Sprite;
         sprite.enabled = true;
         magic.Refresh();
         health.Resurrect();

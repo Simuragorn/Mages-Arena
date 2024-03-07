@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 5271864957240878377}
+  animator: {fileID: 7755886878439127997}
   collider: {fileID: 5167793104972136640}
   health: {fileID: 7035623470991228075}
   movement: {fileID: 6323335258275063481}
