@@ -99,21 +99,22 @@ public class Shell : NetworkBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var collisionObject = collision.gameObject;
+        if (!IsServer)
+        {
+            return;
+        }
         if (!isLaunched)
         {
             return;
         }
+        var collisionObject = collision.gameObject;
         ricochetCountLeft--;
         HitType hitType = HitType.Impact;
 
-        if (IsOwner)
+        if (collisionObject.CompareTag("Player"))
         {
-            if (collisionObject.CompareTag("Player"))
-            {
-                collisionObject.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
-                hitType = HitType.Destroy;
-            }
+            collisionObject.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
+            hitType = HitType.Destroy;
         }
 
         if (ricochetCountLeft <= 0)
@@ -121,6 +122,12 @@ public class Shell : NetworkBehaviour
             hitType = HitType.Destroy;
         }
 
+        HandleCollisionRpc(hitType);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void HandleCollisionRpc(HitType hitType)
+    {
         if (hitType == HitType.Destroy)
         {
             DestroyShell();
