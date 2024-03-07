@@ -263,7 +263,7 @@ MonoBehaviour:
   shieldSpawn: {fileID: 5639722877567797351}
   stateDelay: 0
   maxMana: 100
-  manaRegeneration: 5
+  manaRegeneration: 50
   minManaForShieldSpawn: 2
   LatestShield: {fileID: 0}
 --- !u!114 &7035623470991228075
@@ -333,10 +333,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13da2330ac30fbc448d5b72d02bd7aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseUnreliableDeltas: 0
+  UseUnreliableDeltas: 1
   SyncPositionX: 1
   SyncPositionY: 1
-  SyncPositionZ: 1
+  SyncPositionZ: 0
   SyncRotAngleX: 0
   SyncRotAngleY: 0
   SyncRotAngleZ: 1
@@ -350,7 +350,7 @@ MonoBehaviour:
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  Interpolate: 0
+  Interpolate: 1
   SlerpPosition: 0
 --- !u!114 &8764681313815544086
 MonoBehaviour:

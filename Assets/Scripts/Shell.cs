@@ -150,7 +150,7 @@ public class Shell : NetworkBehaviour
         }
         if (IsServer)
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
         }
     }
 

@@ -1,9 +1,9 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI manaText;
+    [SerializeField] private Image manaFillImage;
     private PlayerMagic playerMagic;
 
     void Update()
@@ -16,6 +16,6 @@ public class PlayerUI : MonoBehaviour
             }
             playerMagic = Player.LocalInstance.GetComponent<PlayerMagic>();
         }
-        manaText.text = $"Mana: {Mathf.Round(playerMagic.ActualMana)}";
+        manaFillImage.fillAmount = playerMagic.ActualMana / playerMagic.MaxMana;
     }
 }

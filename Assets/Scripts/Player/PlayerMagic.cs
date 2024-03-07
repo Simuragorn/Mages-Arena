@@ -21,6 +21,7 @@ public class PlayerMagic : NetworkBehaviour
     [SerializeField] private float minManaForShieldSpawn = 2f;
 
     public float ActualMana { get; private set; }
+    public float MaxMana => maxMana;
 
     private List<MagicType> magicTypes;
     private PlayerMagicState playerMagicState;
