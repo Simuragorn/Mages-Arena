@@ -37,10 +37,7 @@ public class Shell : NetworkBehaviour
         rigidbody.sharedMaterial = MagicType.ShellPhysicsMaterial;
         isLaunched = true;
 
-        if (IsOwner)
-        {
-            rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
-        }
+        rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
         rigidbody.useFullKinematicContacts = true;
         if (IsActivatable)
         {
@@ -81,14 +78,6 @@ public class Shell : NetworkBehaviour
         Physics2D.IgnoreCollision(ownerPlayer.GetComponent<Collider2D>(), collider, false);
     }
 
-    void Update()
-    {
-        if (!IsOwner)
-        {
-            return;
-        }
-    }
-
     public Transform FindClosestTarget()
     {
         if (Player.Players == null)
@@ -110,10 +99,6 @@ public class Shell : NetworkBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!IsOwner)
-        {
-            return;
-        }
         var collisionObject = collision.gameObject;
         if (!isLaunched)
         {
@@ -122,10 +107,13 @@ public class Shell : NetworkBehaviour
         ricochetCountLeft--;
         HitType hitType = HitType.Impact;
 
-        if (collisionObject.CompareTag("Player"))
+        if (IsOwner)
         {
-            collisionObject.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
-            hitType = HitType.Destroy;
+            if (collisionObject.CompareTag("Player"))
+            {
+                collisionObject.GetComponent<PlayerHealth>().GetDamage(ownerPlayer);
+                hitType = HitType.Destroy;
+            }
         }
 
         if (ricochetCountLeft <= 0)

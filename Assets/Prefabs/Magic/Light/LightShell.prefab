@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 8940954601573703683}
   - component: {fileID: 3913750892661559239}
   - component: {fileID: 8514374167204516036}
-  - component: {fileID: 1558354146336022274}
-  - component: {fileID: 447833187631313826}
   m_Layer: 0
   m_Name: LightShell
   m_TagString: Shell
@@ -113,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1260595333
+  GlobalObjectIdHash: 1921761872
   InScenePlacedSourceGlobalObjectIdHash: 1921761872
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -140,50 +138,6 @@ MonoBehaviour:
   impactVFX: {fileID: 0}
   rigidbody: {fileID: 8940954601573703683}
   collider: {fileID: 5042099281373586324}
-  isActivated: 0
---- !u!114 &1558354146336022274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2295601273326041025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13da2330ac30fbc448d5b72d02bd7aee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 0
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
-  SyncRotAngleZ: 0
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  Interpolate: 0
-  SlerpPosition: 0
---- !u!114 &447833187631313826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2295601273326041025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7149610480022365962
 PrefabInstance:
   m_ObjectHideFlags: 0
