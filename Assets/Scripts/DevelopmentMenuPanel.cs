@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class DevLobbyManager : NetworkBehaviour
+public class DevelopmentMenuPanel : NetworkBehaviour
 {
     [SerializeField] private Toggle isHostToggle;
     [SerializeField] private Button connectButton;
@@ -31,7 +31,6 @@ public class DevLobbyManager : NetworkBehaviour
         localIpAddressText.text = GetLocalIpAddress();
         LoadGameSettings();
 
-        DontDestroyOnLoad(gameObject);
         isHostToggle.onValueChanged.AddListener((isHost) => OnHostToggleChanged());
         OnHostToggleChanged();
     }
@@ -58,12 +57,13 @@ public class DevLobbyManager : NetworkBehaviour
         ApplyGameSettings();
         if (isHostToggle.isOn)
         {
-            SceneManager.LoadScene(SceneConstants.PreloadHostSceneIndex);
+            NetworkManager.Singleton.StartHost();
         }
         else
         {
-            SceneManager.LoadScene(SceneConstants.PreloadClientSceneIndex);
+            NetworkManager.Singleton.StartClient();
         }
+        gameObject.SetActive(false);
     }
 
     private void Quit()

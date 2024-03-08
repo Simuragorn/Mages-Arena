@@ -31,16 +31,24 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
     {
         base.Awake();
         restartButton.onClick.AddListener(() => RestartServerRpc(RestartState.Game));
-        NetworkManager.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        if (NetworkManager != null)
+        {
+            NetworkManager.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        }
     }
 
     private void NetworkManager_OnClientDisconnectCallback(ulong obj)
     {
-        if (Player.LocalInstance.OwnerClientId == obj)
-        {            
+        if (Player.LocalInstance == null || Player.LocalInstance.OwnerClientId == obj)
+        {
             InfoPopupUtil.ShowAlert("Connection was lost...");
-            LoadMenuScene();
+            Invoke(nameof(LoadMenuScene), 2f);
         }
+    }
+
+    private void OnDestroy()
+    {
+        NetworkManager.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallback;
     }
 
     private void Update()
