@@ -17,14 +17,6 @@ public class PlayerHealth : NetworkBehaviour
     {
         player = GetComponent<Player>();
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            GetDamage(GetComponent<Player>());
-        }
-    }
     public void Resurrect()
     {
         player.DisableControl();

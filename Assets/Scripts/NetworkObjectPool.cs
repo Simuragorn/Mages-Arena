@@ -6,9 +6,8 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
 
-public class NetworkObjectPool : NetworkBehaviour
+public class NetworkObjectPool : NetworkSingleton<NetworkObjectPool>
 {
-    public static NetworkObjectPool Singleton { get; private set; }
 
     [SerializeField]
     List<PoolConfigObject> PooledPrefabsList;
@@ -16,19 +15,6 @@ public class NetworkObjectPool : NetworkBehaviour
     HashSet<GameObject> m_Prefabs = new HashSet<GameObject>();
 
     Dictionary<GameObject, ObjectPool<NetworkObject>> m_PooledObjects = new Dictionary<GameObject, ObjectPool<NetworkObject>>();
-
-    public void Awake()
-    {
-        if (Singleton != null && Singleton != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Singleton = this;
-        }
-    }
-
     public override void OnNetworkSpawn()
     {
         // Registers all objects in PooledPrefabsList to the cache.
@@ -92,7 +78,6 @@ public class NetworkObjectPool : NetworkBehaviour
     /// </summary>
     public void ReturnNetworkObject(NetworkObject networkObject, GameObject prefab)
     {
-        Debug.Log("Release");
         m_PooledObjects[prefab].Release(networkObject);
     }
 
@@ -104,6 +89,7 @@ public class NetworkObjectPool : NetworkBehaviour
     private IEnumerator ReturnNetworkObjectWithDelay(NetworkObject networkObject, GameObject prefab, float delay)
     {
         yield return new WaitForSeconds(delay);
+        networkObject.Despawn(false);
         m_PooledObjects[prefab].Release(networkObject);
     }
 
@@ -129,7 +115,10 @@ public class NetworkObjectPool : NetworkBehaviour
 
         void ActionOnDestroy(NetworkObject networkObject)
         {
-            Destroy(networkObject.gameObject);
+            if (networkObject != null)
+            {
+                Destroy(networkObject.gameObject);
+            }
         }
 
         m_Prefabs.Add(prefab);

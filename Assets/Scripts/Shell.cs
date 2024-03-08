@@ -197,7 +197,7 @@ public class Shell : NetworkBehaviour
             main.loop = true;
         });
 
-        MagicType = MagicTypesManager.Instance.GetMagicTypes().First(m => m.Type == magicTypeEnum);
+        MagicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
         prefab = MagicType.ShellPrefab.gameObject;
 
         transform.rotation = transform.rotation * Quaternion.AngleAxis(Random.Range(-MagicType.ShootSpreadAngle / 2, MagicType.ShootSpreadAngle / 2), Vector3.forward);

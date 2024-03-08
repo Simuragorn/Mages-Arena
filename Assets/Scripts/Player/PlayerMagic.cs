@@ -36,7 +36,7 @@ public class PlayerMagic : NetworkBehaviour
     private void Awake()
     {
         ActualMana = maxMana;
-        magicTypes = MagicTypesManager.Instance.GetMagicTypes().ToList();
+        magicTypes = MagicTypesManager.Singleton.GetMagicTypes().ToList();
         magicType = magicTypes.First();
     }
 
@@ -239,7 +239,7 @@ public class PlayerMagic : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void ShootServerRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
-        var magicTypes = MagicTypesManager.Instance.GetMagicTypes();
+        var magicTypes = MagicTypesManager.Singleton.GetMagicTypes();
         var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
         var shell = NetworkObjectPool.Singleton.GetNetworkObject(actualMagicType.ShellPrefab.gameObject, shellSpawn.position, shellSpawn.rotation).gameObject;
         var shellReference = shell.GetComponent<NetworkObject>();
@@ -253,7 +253,7 @@ public class PlayerMagic : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void SetShellOwnerRpc(NetworkObjectReference shellReference, NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
-        var magicTypes = MagicTypesManager.Instance.GetMagicTypes();
+        var magicTypes = MagicTypesManager.Singleton.GetMagicTypes();
         var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
 
         shellReference.TryGet(out NetworkObject shellObject);

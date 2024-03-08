@@ -1,8 +1,11 @@
+using Assets.Scripts.Constants;
 using Assets.Scripts.Dto;
+using Madhur.InfoPopup;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
+using Unity.Networking.Transport;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,17 +27,34 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
 
     private List<Player> activePlayers = new List<Player>();
     private List<PlayerScore> allPlayerScores = new List<PlayerScore>();
-    private void Awake()
+    override protected void Awake()
     {
+        base.Awake();
         restartButton.onClick.AddListener(() => RestartServerRpc(RestartState.Game));
+        NetworkManager.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+    }
+
+    private void NetworkManager_OnClientDisconnectCallback(ulong obj)
+    {
+        if (Player.LocalInstance.OwnerClientId == obj)
+        {            
+            InfoPopupUtil.ShowAlert("Connection was lost...");
+            LoadMenuScene();
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            NetworkManager.Shutdown();
+            LoadMenuScene();
         }
+    }
+
+    private void LoadMenuScene()
+    {
+        SceneManager.LoadScene(SceneConstants.MenuSceneIndex, LoadSceneMode.Single);
     }
 
     [ServerRpc(RequireOwnership = false)]
