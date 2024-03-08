@@ -43,25 +43,28 @@ public class Player : NetworkBehaviour
     {
         if (IsOwner)
         {
-            health.OnPlayerDead += Health_OnPlayerDead;
             LocalInstance = this;
         }
+        if (IsServer)
+        {
+            health.OnPlayerDead += Health_OnPlayerDead;
+        }
         Players.Add(this);
-        var identities = PlayersIdentityManager.Singleton.GetPlayerIdentities();
+        var identities = PlayersIdentityManager.Instance.GetPlayerIdentities();
         identity = identities.FirstOrDefault(i => i.Index == Players.Count - 1);
-        ArenaManager.Singleton.AddPlayer(this);
+        ArenaManager.Instance.AddPlayer(this);
         Spawn();
     }
 
     public override void OnNetworkDespawn()
     {
-        ArenaManager.Singleton.RemovePlayer(this);
+        ArenaManager.Instance.RemovePlayer(this);
         Players.Remove(this);
     }
 
     public void Spawn()
     {
-        transform.position = SpawnManager.Singleton.GetSpawnPointForPlayer(identity.Index);
+        transform.position = SpawnManager.Instance.GetSpawnPointForPlayer(identity.Index);
         animator.runtimeAnimatorController = identity.Animator;
         sprite.sprite = identity.Sprite;
         sprite.enabled = true;
@@ -71,10 +74,7 @@ public class Player : NetworkBehaviour
 
     private void Health_OnPlayerDead(object sender, Player killer)
     {
-        if (IsOwner)
-        {
-            ArenaManager.Singleton.PlayerDiedServerRpc(OwnerClientId, killer.OwnerClientId);
-        }
+        ArenaManager.Instance.PlayerDiedServerRpc(OwnerClientId, killer.OwnerClientId);
     }
 
     public void EnableControl()

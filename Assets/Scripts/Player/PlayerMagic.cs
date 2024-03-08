@@ -36,7 +36,7 @@ public class PlayerMagic : NetworkBehaviour
     private void Awake()
     {
         ActualMana = maxMana;
-        magicTypes = MagicTypesManager.Singleton.GetMagicTypes().ToList();
+        magicTypes = MagicTypesManager.Instance.GetMagicTypes().ToList();
         magicType = magicTypes.First();
     }
 
@@ -64,18 +64,13 @@ public class PlayerMagic : NetworkBehaviour
             activatableShells = activatableShells.Where(s => s != null).ToList();
             if (activatableShells.Any())
             {
-                ActivateShellsServerRpc(OwnerClientId);
+                ActivateShellsRpc(OwnerClientId);
             }
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void ActivateShellsServerRpc(ulong ownerClientId)
-    {
-        ActiveShellsClientRpc(ownerClientId);
-    }
-    [ClientRpc]
-    private void ActiveShellsClientRpc(ulong ownerClientId)
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ActivateShellsRpc(ulong ownerClientId)
     {
         var playerMagic = Player.Players.First(p => p.OwnerClientId == ownerClientId).GetComponent<PlayerMagic>();
         playerMagic.activatableShells.ForEach(s => s.Activate());
@@ -176,7 +171,7 @@ public class PlayerMagic : NetworkBehaviour
         {
             if (LatestShield != null)
             {
-                DeleteShieldServerRpc(GetComponent<NetworkObject>());
+                DeleteShieldRpc(GetComponent<NetworkObject>());
             }
             playerMagicState = newState;
             stateDelayLeft = stateDelay;
@@ -195,7 +190,7 @@ public class PlayerMagic : NetworkBehaviour
     {
         if (LatestShield == null && ActualMana >= minManaForShieldSpawn)
         {
-            ShieldServerRpc(GetComponent<NetworkObject>(), magicType.Type);
+            SetShieldOwnerRpc(GetComponent<NetworkObject>(), magicType.Type);
         }
     }
 
@@ -219,13 +214,8 @@ public class PlayerMagic : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void DeleteShieldServerRpc(NetworkObjectReference ownerReference)
-    {
-        DeleteShieldClientRpc(ownerReference);
-    }
-    [ClientRpc]
-    private void DeleteShieldClientRpc(NetworkObjectReference ownerReference)
+    [Rpc(SendTo.ClientsAndHost)]
+    private void DeleteShieldRpc(NetworkObjectReference ownerReference)
     {
         ownerReference.TryGet(out NetworkObject ownerObject);
         var playerMagic = ownerObject.GetComponent<PlayerMagic>();
@@ -236,14 +226,8 @@ public class PlayerMagic : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void ShieldServerRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
-    {
-        SetShieldOwnerClientRpc(ownerReference, magicTypeEnum);
-    }
-
-    [ClientRpc]
-    private void SetShieldOwnerClientRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SetShieldOwnerRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
         Shield shield = shieldSpawn.GetComponentsInChildren<Shield>(true).First(s => s.MagicTypeEnum == magicTypeEnum);
 
@@ -252,20 +236,21 @@ public class PlayerMagic : NetworkBehaviour
         playerMagic.SetNewShield(shield);
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server)]
     private void ShootServerRpc(NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
-        var magicTypes = MagicTypesManager.Singleton.GetMagicTypes();
+        var magicTypes = MagicTypesManager.Instance.GetMagicTypes();
         var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
         var shell = Instantiate(actualMagicType.ShellPrefab, shellSpawn.position, shellSpawn.rotation);
         var shellReference = shell.GetComponent<NetworkObject>();
         shellReference.Spawn(true);
-        SetShellOwnerClientRpc(shellReference, ownerReference, magicTypeEnum);
+        SetShellOwnerRpc(shellReference, ownerReference, magicTypeEnum);
     }
-    [ClientRpc]
-    private void SetShellOwnerClientRpc(NetworkObjectReference shellReference, NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SetShellOwnerRpc(NetworkObjectReference shellReference, NetworkObjectReference ownerReference, MagicTypeEnum magicTypeEnum)
     {
-        var magicTypes = MagicTypesManager.Singleton.GetMagicTypes();
+        var magicTypes = MagicTypesManager.Instance.GetMagicTypes();
         var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
 
         shellReference.TryGet(out NetworkObject shellObject);

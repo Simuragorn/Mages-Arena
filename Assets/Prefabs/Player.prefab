@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 3237237535127555077}
   - component: {fileID: 8764681313815544086}
   - component: {fileID: 4395007162428794383}
+  - component: {fileID: -8612862154893288243}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -262,8 +263,8 @@ MonoBehaviour:
   shellSpawn: {fileID: 2278944521550370925}
   shieldSpawn: {fileID: 5639722877567797351}
   stateDelay: 0
-  maxMana: 100
-  manaRegeneration: 50
+  maxMana: 100000
+  manaRegeneration: 5
   minManaForShieldSpawn: 2
   LatestShield: {fileID: 0}
 --- !u!114 &7035623470991228075
@@ -337,8 +338,8 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 0
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
   SyncRotAngleZ: 1
   SyncScaleX: 0
   SyncScaleY: 0
@@ -346,11 +347,11 @@ MonoBehaviour:
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
+  UseQuaternionSynchronization: 1
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
 --- !u!114 &8764681313815544086
 MonoBehaviour:
@@ -393,6 +394,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-8612862154893288243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8717618560549236206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &827601161158828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -484,6 +497,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5639722877567797351}
     m_Modifications:
+    - target: {fileID: 1427822421713290728, guid: 5b06a365d40b27d4ba05434cb500469b, type: 3}
+      propertyPath: m_Constraints
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2006624851633939850, guid: 5b06a365d40b27d4ba05434cb500469b, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1094495661
@@ -605,6 +622,10 @@ PrefabInstance:
     - target: {fileID: 2060986590680098680, guid: 1d5e66b14b73c944f8d010f668b6db61, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906309929097251861, guid: 1d5e66b14b73c944f8d010f668b6db61, type: 3}
+      propertyPath: m_Constraints
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8825915594683022680, guid: 1d5e66b14b73c944f8d010f668b6db61, type: 3}
       propertyPath: magicTypeEnum
@@ -770,6 +791,10 @@ PrefabInstance:
     - target: {fileID: 2060986590680098680, guid: 96dde1c5cefd66543833e9ed88a912cb, type: 3}
       propertyPath: m_Name
       value: LightShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 4906309929097251861, guid: 96dde1c5cefd66543833e9ed88a912cb, type: 3}
+      propertyPath: m_Constraints
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

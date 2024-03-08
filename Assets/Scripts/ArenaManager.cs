@@ -13,7 +13,7 @@ enum RestartState
     Game
 }
 
-public class ArenaManager : NetworkBehaviour
+public class ArenaManager : NetworkSingleton<ArenaManager>
 {
     [SerializeField] private Canvas gameCanvas;
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -21,22 +21,11 @@ public class ArenaManager : NetworkBehaviour
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private TextMeshProUGUI victoryText;
     [SerializeField] private Button restartButton;
-    public static ArenaManager Singleton { get; private set; }
+
     private List<Player> activePlayers = new List<Player>();
     private List<PlayerScore> allPlayerScores = new List<PlayerScore>();
     private void Awake()
     {
-        var instances = FindObjectsByType<ArenaManager>(FindObjectsSortMode.None);
-        if (instances.Length > 1)
-        {
-            Singleton = instances[0];
-            if (IsServer)
-            {
-                Destroy(gameObject);
-            }
-            return;
-        }
-        Singleton = this;
         restartButton.onClick.AddListener(() => RestartServerRpc(RestartState.Game));
     }
 

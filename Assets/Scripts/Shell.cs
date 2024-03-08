@@ -29,7 +29,7 @@ public class Shell : NetworkBehaviour
     {
         collider.isTrigger = false;
         ownerPlayer = sendingPlayer;
-        MagicType = MagicTypesManager.Singleton.GetMagicTypes().First(m => m.Type == magicTypeEnum);
+        MagicType = MagicTypesManager.Instance.GetMagicTypes().First(m => m.Type == magicTypeEnum);
         transform.rotation = transform.rotation * Quaternion.AngleAxis(Random.Range(-MagicType.ShootSpreadAngle / 2, MagicType.ShootSpreadAngle / 2), Vector3.forward);
         IsActivatable = MagicType.IsActivatableShoot;
         gameObject.layer = LayerMask.NameToLayer(MagicType.GetLayerName(magicTypeEnum, MagicEquipmentType.Shell));
@@ -37,7 +37,10 @@ public class Shell : NetworkBehaviour
         rigidbody.sharedMaterial = MagicType.ShellPhysicsMaterial;
         isLaunched = true;
 
-        rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
+        if (IsServer)
+        {
+            rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
+        }
         rigidbody.useFullKinematicContacts = true;
         if (IsActivatable)
         {
@@ -61,7 +64,10 @@ public class Shell : NetworkBehaviour
         {
             rigidbody.velocity = Vector3.zero;
             Vector2 direction = (target.position - transform.position).normalized;
-            rigidbody.AddForce(MagicType.ShootImpulse * direction, ForceMode2D.Impulse);
+            if (IsServer)
+            {
+                rigidbody.AddForce(MagicType.ShootImpulse * direction, ForceMode2D.Impulse);
+            }
         }
 
         if (loopingVFX != null && activatedLoopingVFX != null)
@@ -125,7 +131,7 @@ public class Shell : NetworkBehaviour
         HandleCollisionRpc(hitType);
     }
 
-    [Rpc(SendTo.Everyone)]
+    [Rpc(SendTo.ClientsAndHost)]
     private void HandleCollisionRpc(HitType hitType)
     {
         if (hitType == HitType.Destroy)
@@ -142,7 +148,7 @@ public class Shell : NetworkBehaviour
     {
         isLaunched = false;
         rigidbody.velocity = Vector2.zero;
-        rigidbody.isKinematic = true;
+        rigidbody.simulated = false;
         var loopingParticles = loopingVFX.GetComponentsInChildren<ParticleSystem>().ToList();
         loopingParticles.Add(loopingVFX);
         loopingParticles.ForEach(particle =>
