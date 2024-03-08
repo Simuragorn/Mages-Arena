@@ -241,9 +241,12 @@ public class PlayerMagic : NetworkBehaviour
     {
         var magicTypes = MagicTypesManager.Instance.GetMagicTypes();
         var actualMagicType = magicTypes.First(m => m.Type == magicTypeEnum);
-        var shell = Instantiate(actualMagicType.ShellPrefab, shellSpawn.position, shellSpawn.rotation);
+        var shell = NetworkObjectPool.Singleton.GetNetworkObject(actualMagicType.ShellPrefab.gameObject, shellSpawn.position, shellSpawn.rotation).gameObject;
         var shellReference = shell.GetComponent<NetworkObject>();
-        shellReference.Spawn(true);
+        if (!shellReference.IsSpawned)
+        {
+            shellReference.Spawn(true);
+        }
         SetShellOwnerRpc(shellReference, ownerReference, magicTypeEnum);
     }
 

@@ -10,6 +10,7 @@ public enum HitType
 }
 public class Shell : NetworkBehaviour
 {
+    private GameObject prefab;
     [SerializeField] private ParticleSystem loopingVFX;
     [SerializeField] private ParticleSystem activatedLoopingVFX;
     [SerializeField] private ParticleSystem destroyVFX;
@@ -27,25 +28,17 @@ public class Shell : NetworkBehaviour
 
     public void Launch(Player sendingPlayer, MagicTypeEnum magicTypeEnum)
     {
-        collider.isTrigger = false;
+        PrepareForLaunch(magicTypeEnum);
         ownerPlayer = sendingPlayer;
-        MagicType = MagicTypesManager.Instance.GetMagicTypes().First(m => m.Type == magicTypeEnum);
-        transform.rotation = transform.rotation * Quaternion.AngleAxis(Random.Range(-MagicType.ShootSpreadAngle / 2, MagicType.ShootSpreadAngle / 2), Vector3.forward);
-        IsActivatable = MagicType.IsActivatableShoot;
-        gameObject.layer = LayerMask.NameToLayer(MagicType.GetLayerName(magicTypeEnum, MagicEquipmentType.Shell));
-        ricochetCountLeft = MagicType.RicochetCount;
-        rigidbody.sharedMaterial = MagicType.ShellPhysicsMaterial;
         isLaunched = true;
-
+        loopingVFX.gameObject.SetActive(true);
         if (IsServer)
         {
             rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
         }
-        rigidbody.useFullKinematicContacts = true;
         if (IsActivatable)
         {
             sendingPlayer.GetComponent<PlayerMagic>().AddActivatableShell(this);
-            activatedLoopingVFX.gameObject.SetActive(false);
         }
 
         StartCoroutine(DelayForCollisionWithOwner());
@@ -163,7 +156,7 @@ public class Shell : NetworkBehaviour
         }
         if (IsServer)
         {
-            Destroy(gameObject, 2f);
+            NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, prefab, 2f);
         }
     }
 
@@ -171,20 +164,53 @@ public class Shell : NetworkBehaviour
     {
         if (IsServer)
         {
-            var impactVFXObject = Instantiate(impactVFX, transform.position, transform.rotation);
-            impactVFXObject.GetComponent<NetworkObject>().Spawn();
-
-            Destroy(impactVFXObject.gameObject, 2f);
+            var impactVFXObject = NetworkObjectPool.Singleton.GetNetworkObject(impactVFX.gameObject, transform.position, transform.rotation);
+            if (!impactVFXObject.IsSpawned)
+            {
+                impactVFXObject.GetComponent<NetworkObject>().Spawn();
+            }
+            NetworkObjectPool.Singleton.ReturnNetworkObject(impactVFXObject.GetComponent<NetworkObject>(), impactVFX.gameObject, 2f);
         }
     }
     public void DestroyEffects()
     {
         if (IsServer)
         {
-            var destroyVFXObject = Instantiate(destroyVFX, transform.position, transform.rotation);
-            destroyVFXObject.GetComponent<NetworkObject>().Spawn();
-
-            Destroy(destroyVFXObject.gameObject, 2f);
+            var destroyVFXObject = NetworkObjectPool.Singleton.GetNetworkObject(destroyVFX.gameObject, transform.position, transform.rotation);
+            if (!destroyVFXObject.IsSpawned)
+            {
+                destroyVFXObject.GetComponent<NetworkObject>().Spawn();
+            }
+            NetworkObjectPool.Singleton.ReturnNetworkObject(destroyVFXObject.GetComponent<NetworkObject>(), destroyVFX.gameObject, 2f);
         }
+    }
+    private void PrepareForLaunch(MagicTypeEnum magicTypeEnum)
+    {
+        collider.isTrigger = false;
+        rigidbody.velocity = Vector2.zero;
+        rigidbody.simulated = true;
+        var loopingParticles = loopingVFX.GetComponentsInChildren<ParticleSystem>().ToList();
+        loopingParticles.Add(loopingVFX);
+        loopingParticles.ForEach(particle =>
+        {
+            var main = particle.main;
+            main.loop = true;
+        });
+
+        MagicType = MagicTypesManager.Instance.GetMagicTypes().First(m => m.Type == magicTypeEnum);
+        prefab = MagicType.ShellPrefab.gameObject;
+
+        transform.rotation = transform.rotation * Quaternion.AngleAxis(Random.Range(-MagicType.ShootSpreadAngle / 2, MagicType.ShootSpreadAngle / 2), Vector3.forward);
+        IsActivatable = MagicType.IsActivatableShoot;
+        gameObject.layer = LayerMask.NameToLayer(MagicType.GetLayerName(magicTypeEnum, MagicEquipmentType.Shell));
+        ricochetCountLeft = MagicType.RicochetCount;
+        rigidbody.sharedMaterial = MagicType.ShellPhysicsMaterial;
+        isActivated = false;
+        if (IsActivatable)
+        {
+            activatedLoopingVFX.gameObject.SetActive(false);
+        }
+        loopingVFX.gameObject.SetActive(false);
+        rigidbody.useFullKinematicContacts = true;
     }
 }

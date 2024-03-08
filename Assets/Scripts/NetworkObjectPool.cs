@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -91,6 +92,18 @@ public class NetworkObjectPool : NetworkBehaviour
     /// </summary>
     public void ReturnNetworkObject(NetworkObject networkObject, GameObject prefab)
     {
+        Debug.Log("Release");
+        m_PooledObjects[prefab].Release(networkObject);
+    }
+
+    public void ReturnNetworkObject(NetworkObject networkObject, GameObject prefab, float delay)
+    {
+        StartCoroutine(ReturnNetworkObjectWithDelay(networkObject, prefab, delay));
+    }
+
+    private IEnumerator ReturnNetworkObjectWithDelay(NetworkObject networkObject, GameObject prefab, float delay)
+    {
+        yield return new WaitForSeconds(delay);
         m_PooledObjects[prefab].Release(networkObject);
     }
 
