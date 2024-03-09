@@ -15,7 +15,14 @@ namespace Assets.Scripts.Core
             GameSettings gameSettings;
             if (!File.Exists(GameSettingsFilePath))
             {
-                gameSettings = new GameSettings { HostIpAddress = ConnectionConstants.DefaultLocalConnectionAddress, Port = ConnectionConstants.DefaultPort, ListenOn = ConnectionConstants.ListenOn };
+                gameSettings = new GameSettings
+                {
+                    HostIpAddress = ConnectionConstants.DefaultLocalConnectionAddress,
+                    Port = ConnectionConstants.DefaultPort,
+                    ListenOn = ConnectionConstants.ListenOn,
+                    SoundVolume = AudioConstants.DefaultSoundVolume,
+                    MusicVolume = AudioConstants.DefaultMusicVolume
+                };
             }
             else
             {

@@ -19,6 +19,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private TMP_InputField hostIpAddressInput;
     [SerializeField] private TMP_InputField portInput;
     [SerializeField] private TMP_InputField localIpAddressText;
+    [SerializeField] private Slider soundVolumeSlider;
+    [SerializeField] private Slider musicVolumeSlider;
     void Start()
     {
         connectButton.onClick.AddListener(Connect);
@@ -28,13 +30,26 @@ public class MenuManager : MonoBehaviour
         localIpAddressText.text = GetLocalIpAddress();
         LoadGameSettings();
 
-        isHostToggle.onValueChanged.AddListener((isHost) => OnHostToggleChanged());
-        OnHostToggleChanged();
+        isHostToggle.onValueChanged.AddListener(OnHostToggleChanged);
+        OnHostToggleChanged(isHostToggle.isOn);
+
+        soundVolumeSlider.onValueChanged.AddListener(OnSoundVolumeChanged);
+        musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
     }
 
-    private void OnHostToggleChanged()
+    private void OnSoundVolumeChanged(float soundVolume)
     {
-        if (isHostToggle.isOn)
+        AudioManager.Singleton.Refresh(soundVolume, musicVolumeSlider.value);
+    }
+
+    private void OnMusicVolumeChanged(float musicVolume)
+    {
+        AudioManager.Singleton.Refresh(soundVolumeSlider.value, musicVolume);
+    }
+
+    private void OnHostToggleChanged(bool isHost)
+    {
+        if (isHost)
         {
             hostIpAddressInput.text = ConnectionConstants.DefaultLocalConnectionAddress;
             hostIpAddressInput.gameObject.SetActive(false);
@@ -73,7 +88,10 @@ public class MenuManager : MonoBehaviour
         {
             IsHost = isHostToggle.isOn,
             HostIpAddress = hostIpAddressInput.text,
-            Port = ushort.Parse(portInput.text)
+            Port = ushort.Parse(portInput.text),
+
+            MusicVolume = musicVolumeSlider.value,
+            SoundVolume = soundVolumeSlider.value
         };
 
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(gameSettings.HostIpAddress, gameSettings.Port, gameSettings.ListenOn);
@@ -87,6 +105,9 @@ public class MenuManager : MonoBehaviour
         hostIpAddressInput.text = gameSettings.HostIpAddress;
         isHostToggle.isOn = gameSettings.IsHost;
         portInput.text = gameSettings.Port.ToString();
+
+        soundVolumeSlider.value = gameSettings.SoundVolume;
+        musicVolumeSlider.value = gameSettings.MusicVolume;
     }
     private void SaveGameSettings(GameSettings gameSettings)
     {

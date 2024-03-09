@@ -12,5 +12,8 @@ namespace Assets.Scripts.Core
         public string HostIpAddress { get; set; }
         public ushort Port { get; set; }
         public string ListenOn { get; set; }
+
+        public float SoundVolume { get; set; }
+        public float MusicVolume {  get; set; }
     }
 }

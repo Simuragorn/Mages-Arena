@@ -140,6 +140,7 @@ MonoBehaviour:
   impactVFX: {fileID: 0}
   rigidbody: {fileID: 8940954601573703683}
   collider: {fileID: 5042099281373586324}
+  destroySFX: {fileID: 8300000, guid: bee30de9240a69042968be2c59987dfd, type: 3}
 --- !u!114 &6166821159879089871
 MonoBehaviour:
   m_ObjectHideFlags: 0
