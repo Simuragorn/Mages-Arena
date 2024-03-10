@@ -17,7 +17,8 @@ public class Shell : NetworkBehaviour
     [SerializeField] private ParticleSystem impactVFX;
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private Collider2D collider;
-    [SerializeField] private AudioClip destroySFX;
+    [SerializeField] private AudioClip precastSFX;
+    [SerializeField] private AudioClip hitSFX;
 
     public MagicType MagicType { get; private set; }
 
@@ -33,6 +34,7 @@ public class Shell : NetworkBehaviour
         ownerPlayer = sendingPlayer;
         isLaunched = true;
         loopingVFX.gameObject.SetActive(true);
+        AudioManager.Singleton.PlaySound(precastSFX, transform.position);
         if (IsServer)
         {
             rigidbody.AddForce(MagicType.ShootImpulse * transform.up, ForceMode2D.Impulse);
@@ -128,7 +130,7 @@ public class Shell : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void HandleCollisionRpc(HitType hitType)
     {
-        AudioManager.Singleton.PlaySound(destroySFX, transform.position);
+        AudioManager.Singleton.PlaySound(hitSFX, transform.position);
         if (hitType == HitType.Destroy)
         {
             DestroyShell();
@@ -183,7 +185,7 @@ public class Shell : NetworkBehaviour
             {
                 destroyVFXObject.GetComponent<NetworkObject>().Spawn();
             }
-            NetworkObjectPool.Singleton.ReturnNetworkObject(destroyVFXObject.GetComponent<NetworkObject>(), destroyVFX.gameObject, 2f);            
+            NetworkObjectPool.Singleton.ReturnNetworkObject(destroyVFXObject.GetComponent<NetworkObject>(), destroyVFX.gameObject, 2f);
         }
     }
     private void PrepareForLaunch(MagicTypeEnum magicTypeEnum)
