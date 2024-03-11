@@ -140,8 +140,8 @@ MonoBehaviour:
   impactVFX: {fileID: 0}
   rigidbody: {fileID: 8940954601573703683}
   collider: {fileID: 5042099281373586324}
-  precastSFX: {fileID: 8300000, guid: 3aec1d80489748f4c81925391d7c522a, type: 3}
-  hitSFX: {fileID: 8300000, guid: aca93ecd44e229148be7d9e3450fa824, type: 3}
+  precastSFX: {fileID: 8300000, guid: 0ad4c02dc2122f54f9e0c7917e9f7c4f, type: 3}
+  hitSFX: {fileID: 8300000, guid: e927abd84b0808c44b9606e2605685de, type: 3}
 --- !u!114 &6166821159879089871
 MonoBehaviour:
   m_ObjectHideFlags: 0
