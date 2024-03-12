@@ -21,6 +21,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private TMP_InputField localIpAddressText;
     [SerializeField] private Slider soundVolumeSlider;
     [SerializeField] private Slider musicVolumeSlider;
+    private string listenOn;
     void Start()
     {
         connectButton.onClick.AddListener(Connect);
@@ -89,6 +90,7 @@ public class MenuManager : MonoBehaviour
             IsHost = isHostToggle.isOn,
             HostIpAddress = hostIpAddressInput.text,
             Port = ushort.Parse(portInput.text),
+            ListenOn = listenOn,
 
             MusicVolume = musicVolumeSlider.value,
             SoundVolume = soundVolumeSlider.value
@@ -105,6 +107,7 @@ public class MenuManager : MonoBehaviour
         hostIpAddressInput.text = gameSettings.HostIpAddress;
         isHostToggle.isOn = gameSettings.IsHost;
         portInput.text = gameSettings.Port.ToString();
+        listenOn = gameSettings.ListenOn;
 
         soundVolumeSlider.value = gameSettings.SoundVolume;
         musicVolumeSlider.value = gameSettings.MusicVolume;
