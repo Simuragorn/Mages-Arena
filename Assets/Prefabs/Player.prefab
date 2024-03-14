@@ -263,7 +263,7 @@ MonoBehaviour:
   shellSpawn: {fileID: 2278944521550370925}
   shieldSpawn: {fileID: 5639722877567797351}
   stateDelay: 0
-  maxMana: 100000
+  maxMana: 100
   manaRegeneration: 5
   minManaForShieldSpawn: 2
   LatestShield: {fileID: 0}
