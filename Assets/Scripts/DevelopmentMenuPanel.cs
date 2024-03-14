@@ -63,8 +63,7 @@ public class DevelopmentMenuPanel : NetworkBehaviour
         {
             NetworkManager.Singleton.StartClient();
         }
-        gameObject.SetActive(false);
-    }
+        gameObject.SetActive(false);    }
 
     private void Quit()
     {

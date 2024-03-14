@@ -513,6 +513,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7540197461904841290, guid: 07e3b5c199c02574e896d74652e04e17, type: 3}
+      propertyPath: gameMusicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c3c924f1f5e875e44a8b878158eca030, type: 3}
+    - target: {fileID: 7540197461904841290, guid: 07e3b5c199c02574e896d74652e04e17, type: 3}
+      propertyPath: menuMusicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 507520e303690734e9225e4b4990f482, type: 3}
     - target: {fileID: 7951724522966788097, guid: 07e3b5c199c02574e896d74652e04e17, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
