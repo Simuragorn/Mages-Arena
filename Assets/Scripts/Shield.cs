@@ -1,4 +1,5 @@
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Shield : MonoBehaviour
@@ -17,6 +18,7 @@ public class Shield : MonoBehaviour
 
     public void Activate()
     {
+        transform.localPosition = Vector3.zero;
         collider.enabled = true;
         shieldVFX.gameObject.SetActive(true);
     }
