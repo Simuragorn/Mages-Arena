@@ -1,5 +1,5 @@
 using System;
-using Unity.Netcode;
+using FishNet.Object;
 using UnityEngine;
 
 public class PlayerHealth : NetworkBehaviour
@@ -48,7 +48,7 @@ public class PlayerHealth : NetworkBehaviour
     {
         GetDamageClientRpc(playerIndex, damageDealerIndex);
     }
-    [ClientRpc]
+    [ObserversRpc]
     protected void GetDamageClientRpc(int playerIndex, int damageDealerIndex)
     {
         var player = Player.Players[playerIndex];

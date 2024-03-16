@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicAudioSource: {fileID: 7664197614428781813}
-  menuMusicClip: {fileID: 8300000, guid: c9c303bdc6a763945abfc12c63e9ff2c, type: 3}
-  gameMusicClip: {fileID: 8300000, guid: ffe736a7be8dcc24599dfcb9e6026f55, type: 3}
+  menuMusicClip: {fileID: 8300000, guid: 507520e303690734e9225e4b4990f482, type: 3}
+  gameMusicClip: {fileID: 8300000, guid: c3c924f1f5e875e44a8b878158eca030, type: 3}
 --- !u!82 &7664197614428781813
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,11 +1,12 @@
 using Assets.Scripts.Constants;
+using Assets.Scripts.Core;
 using Assets.Scripts.Dto;
+using FishNet;
+using FishNet.Object;
 using Madhur.InfoPopup;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.Netcode;
-using Unity.Networking.Transport;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,36 +34,48 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
         restartButton.onClick.AddListener(() => RestartServerRpc(RestartState.Game));
         if (NetworkManager != null)
         {
-            NetworkManager.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+            NetworkManager.ClientManager.OnClientTimeOut += ClientManager_OnClientTimeOut;
         }
     }
 
-    private void NetworkManager_OnClientDisconnectCallback(ulong obj)
+    private void ClientManager_OnClientTimeOut()
     {
-        if (Player.LocalInstance == null || Player.LocalInstance.OwnerClientId == obj)
-        {
-            InfoPopupUtil.ShowAlert("Connection was lost...");
-            Invoke(nameof(LoadMenuScene), 2f);
-        }
+        InfoPopupUtil.ShowAlert("Connection was lost...");
+        Invoke(nameof(LoadMenuScene), 2f);
     }
 
     private void OnDestroy()
     {
-        NetworkManager.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallback;
+        NetworkManager.ClientManager.OnClientTimeOut -= ClientManager_OnClientTimeOut;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            NetworkManager.Shutdown();
             LoadMenuScene();
         }
     }
 
     private void LoadMenuScene()
     {
-        SceneManager.LoadScene(SceneConstants.MenuSceneIndex, LoadSceneMode.Single);
+        var loadData = new FishNet.Managing.Scened.SceneLoadData(SceneConstants.MenuSceneName);
+        loadData.ReplaceScenes = FishNet.Managing.Scened.ReplaceOption.All;
+        InstanceFinder.SceneManager.LoadConnectionScenes(Player.LocalInstance.Owner, loadData);
+
+        InstanceFinder.SceneManager.OnLoadEnd += SceneManager_OnLoadEnd;
+    }
+
+    private void SceneManager_OnLoadEnd(FishNet.Managing.Scened.SceneLoadEndEventArgs obj)
+    {
+        obj.LoadedScenes.Any(ls => ls.name == SceneConstants.MenuSceneName);
+        OnMenuSceneLoaded();
+    }
+
+    private void OnMenuSceneLoaded()
+    {
+        Debug.Log("Disconnected from server");
+        NetworkManager.ClientManager.Connection.Disconnect(true);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -70,7 +83,7 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
     {
         RestartClientRpc(state);
     }
-    [ClientRpc]
+    [ObserversRpc]
     private void RestartClientRpc(RestartState state)
     {
         victoryPanel.SetActive(false);
@@ -88,7 +101,7 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
         scoreText.text = string.Join("       ", allPlayerScores.Select(ps => $"{ps.Player.GetName()} - {ps.Score}"));
     }
 
-    [ClientRpc]
+    [ObserversRpc]
     private void UpdateArenaStateClientRpc()
     {
         UpdateArenaScoreText();
@@ -121,15 +134,15 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void PlayerDiedServerRpc(ulong deadPlayerOwnerId, ulong killerOwnerId)
+    public void PlayerDiedServerRpc(int deadPlayerOwnerId, int killerOwnerId)
     {
         PlayerDiedClientRpc(deadPlayerOwnerId, killerOwnerId);
         UpdateArenaStateClientRpc();
     }
-    [ClientRpc]
-    private void PlayerDiedClientRpc(ulong deadPlayerOwnerId, ulong killerOwnerId)
+    [ObserversRpc]
+    private void PlayerDiedClientRpc(int deadPlayerOwnerId, int killerOwnerId)
     {
-        var killerScore = allPlayerScores.First(p => p.Player.OwnerClientId == killerOwnerId);
+        var killerScore = allPlayerScores.First(p => p.Player.OwnerId == killerOwnerId);
         if (deadPlayerOwnerId == killerOwnerId)
         {
             killerScore.Score--;
@@ -138,6 +151,6 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
         {
             killerScore.Score++;
         }
-        activePlayers.RemoveAll(p => p.OwnerClientId == deadPlayerOwnerId);
+        activePlayers.RemoveAll(p => p.OwnerId == deadPlayerOwnerId);
     }
 }

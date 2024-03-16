@@ -1,6 +1,8 @@
+using FishNet.Connection;
+using FishNet.Object;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Netcode;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public enum PlayerAnimationState
@@ -31,15 +33,14 @@ public class Player : NetworkBehaviour
         {
             return identity.Name;
         }
-        return OwnerClientId == 0 ? "Host" : "Client";
+        return OwnerId == 0 ? "Host" : "Client";
     }
 
     private void Awake()
     {
         sprite.enabled = false;
     }
-
-    public override void OnNetworkSpawn()
+    public override void OnOwnershipClient(NetworkConnection prevOwner)
     {
         if (IsOwner)
         {
@@ -55,8 +56,7 @@ public class Player : NetworkBehaviour
         ArenaManager.Singleton.AddPlayer(this);
         Spawn();
     }
-
-    public override void OnNetworkDespawn()
+    public override void OnDespawnServer(NetworkConnection connection)
     {
         ArenaManager.Singleton.RemovePlayer(this);
         Players.Remove(this);
@@ -74,7 +74,7 @@ public class Player : NetworkBehaviour
 
     private void Health_OnPlayerDead(object sender, Player killer)
     {
-        ArenaManager.Singleton.PlayerDiedServerRpc(OwnerClientId, killer.OwnerClientId);
+        ArenaManager.Singleton.PlayerDiedServerRpc(OwnerId, killer.OwnerId);
     }
 
     public void EnableControl()

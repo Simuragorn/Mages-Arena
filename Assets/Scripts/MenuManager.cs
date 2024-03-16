@@ -4,11 +4,11 @@ using Madhur.InfoPopup;
 using System;
 using System.Net;
 using TMPro;
-using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FishNet.Managing;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {
@@ -24,7 +24,7 @@ public class MenuManager : MonoBehaviour
     private string listenOn;
     void Start()
     {
-        connectButton.onClick.AddListener(Connect);
+        connectButton.onClick.AddListener(StartGame);
         quitButton.onClick.AddListener(Quit);
 
         localIpAddressText.readOnly = true;
@@ -65,17 +65,10 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    private void Connect()
+    private void StartGame()
     {
         ApplyGameSettings();
-        if (isHostToggle.isOn)
-        {
-            SceneManager.LoadScene(SceneConstants.PreloadHostSceneIndex);
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneConstants.PreloadClientSceneIndex);
-        }
+        SceneManager.LoadScene(SceneConstants.GameSceneName);
     }
 
     private void Quit()
@@ -96,8 +89,16 @@ public class MenuManager : MonoBehaviour
             SoundVolume = soundVolumeSlider.value
         };
 
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(gameSettings.HostIpAddress, gameSettings.Port, gameSettings.ListenOn);
+        SetConnectionData(gameSettings);
         SaveGameSettings(gameSettings);
+    }
+
+    private void SetConnectionData(GameSettings gameSettings)
+    {
+        var transport = NetworkManager.Instances.First().TransportManager.GetTransport(0);
+        transport.SetClientAddress(gameSettings.HostIpAddress);
+        transport.SetPort(gameSettings.Port);
+        transport.SetServerBindAddress(gameSettings.ListenOn, FishNet.Transporting.IPAddressType.IPv4);
     }
 
     private void LoadGameSettings()

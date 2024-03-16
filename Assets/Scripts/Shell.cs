@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Linq;
-using Unity.Netcode;
+using FishNet.Object;
 using UnityEngine;
 
 public enum HitType
@@ -127,7 +127,7 @@ public class Shell : NetworkBehaviour
         HandleCollisionRpc(hitType);
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [ObserversRpc]
     private void HandleCollisionRpc(HitType hitType)
     {
         AudioManager.Singleton.PlaySound(hitSFX, transform.position);
@@ -160,7 +160,7 @@ public class Shell : NetworkBehaviour
         }
         if (IsServer)
         {
-            NetworkObjectPool.Singleton.ReturnNetworkObject(NetworkObject, prefab, 2f);
+            Destroy(NetworkObject.gameObject, 2f);
         }
     }
 
@@ -168,24 +168,18 @@ public class Shell : NetworkBehaviour
     {
         if (IsServer)
         {
-            var impactVFXObject = NetworkObjectPool.Singleton.GetNetworkObject(impactVFX.gameObject, transform.position, transform.rotation);
-            if (!impactVFXObject.IsSpawned)
-            {
-                impactVFXObject.GetComponent<NetworkObject>().Spawn();
-            }
-            NetworkObjectPool.Singleton.ReturnNetworkObject(impactVFXObject.GetComponent<NetworkObject>(), impactVFX.gameObject, 2f);
+            var impactVFXObject = Instantiate(impactVFX.gameObject, transform.position, transform.rotation);
+            Spawn(impactVFXObject);
+            Destroy(impactVFXObject, 2f);
         }
     }
     public void DestroyEffects()
     {
         if (IsServer)
         {
-            var destroyVFXObject = NetworkObjectPool.Singleton.GetNetworkObject(destroyVFX.gameObject, transform.position, transform.rotation);
-            if (!destroyVFXObject.IsSpawned)
-            {
-                destroyVFXObject.GetComponent<NetworkObject>().Spawn();
-            }
-            NetworkObjectPool.Singleton.ReturnNetworkObject(destroyVFXObject.GetComponent<NetworkObject>(), destroyVFX.gameObject, 2f);
+            var destroyVFXObject = Instantiate(destroyVFX.gameObject, transform.position, transform.rotation);
+            Spawn(destroyVFXObject);
+            Destroy(destroyVFXObject, 2f);
         }
     }
     private void PrepareForLaunch(MagicTypeEnum magicTypeEnum)

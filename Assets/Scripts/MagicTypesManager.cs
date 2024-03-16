@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Unity.Netcode;
+using FishNet.Object;
 using UnityEngine;
 
 public class MagicTypesManager : NetworkSingleton<MagicTypesManager>

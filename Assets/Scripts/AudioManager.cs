@@ -17,10 +17,11 @@ public class AudioManager : MonoSingleton<AudioManager>
         DontDestroyOnLoad(this);
         SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
         Refresh();
-        LoadSceneMusic(SceneManager.GetActiveScene());
-        musicAudioSource.clip = menuMusicClip;
-        musicAudioSource.loop = true;
-        musicAudioSource.Play();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
     }
 
     private void SceneManager_activeSceneChanged(Scene previousScene, Scene currentScene)
@@ -30,15 +31,17 @@ public class AudioManager : MonoSingleton<AudioManager>
 
     private void LoadSceneMusic(Scene currentScene)
     {
-        if (currentScene.buildIndex == SceneConstants.MenuSceneIndex)
+        if (currentScene.name == SceneConstants.MenuSceneName)
         {
             musicAudioSource.clip = menuMusicClip;
             musicAudioSource.PlayDelayed(1f);
+            musicAudioSource.loop = true;
         }
-        else if (currentScene.buildIndex == SceneConstants.GameSceneIndex)
+        else if (currentScene.name == SceneConstants.GameSceneName)
         {
             musicAudioSource.clip = gameMusicClip;
             musicAudioSource.PlayDelayed(1f);
+            musicAudioSource.loop = true;
         }
         else
         {

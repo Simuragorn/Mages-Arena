@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Netcode;
+using FishNet.Object;
 using UnityEngine;
 
 public class SpawnManager : NetworkSingleton<SpawnManager>

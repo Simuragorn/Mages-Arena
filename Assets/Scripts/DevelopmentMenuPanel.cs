@@ -1,16 +1,11 @@
 using Assets.Scripts.Constants;
 using Assets.Scripts.Core;
 using Madhur.InfoPopup;
-using Newtonsoft.Json;
 using System;
-using System.Collections;
-using System.IO;
 using System.Net;
 using TMPro;
-using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
+using FishNet.Object;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DevelopmentMenuPanel : NetworkBehaviour
@@ -57,13 +52,14 @@ public class DevelopmentMenuPanel : NetworkBehaviour
         ApplyGameSettings();
         if (isHostToggle.isOn)
         {
-            NetworkManager.Singleton.StartHost();
+            NetworkManager.ServerManager.StartConnection();
         }
         else
         {
-            NetworkManager.Singleton.StartClient();
+            NetworkManager.ClientManager.StartConnection();
         }
-        gameObject.SetActive(false);    }
+        gameObject.SetActive(false);
+    }
 
     private void Quit()
     {
@@ -79,8 +75,16 @@ public class DevelopmentMenuPanel : NetworkBehaviour
             Port = ushort.Parse(portInput.text)
         };
 
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(gameSettings.HostIpAddress, gameSettings.Port, gameSettings.ListenOn);
+        SetConnectionData(gameSettings);
         SaveGameSettings(gameSettings);
+    }
+
+    private void SetConnectionData(GameSettings gameSettings)
+    {
+        var transport = NetworkManager.TransportManager.GetTransport(0);
+        transport.SetClientAddress(gameSettings.HostIpAddress);
+        transport.SetPort(gameSettings.Port);
+        transport.SetServerBindAddress(gameSettings.ListenOn, FishNet.Transporting.IPAddressType.IPv4);
     }
 
     private void LoadGameSettings()
