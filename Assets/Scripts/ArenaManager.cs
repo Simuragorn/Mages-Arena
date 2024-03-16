@@ -32,10 +32,7 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
     {
         base.Awake();
         restartButton.onClick.AddListener(() => RestartServerRpc(RestartState.Game));
-        if (NetworkManager != null)
-        {
-            NetworkManager.ClientManager.OnClientTimeOut += ClientManager_OnClientTimeOut;
-        }
+        InstanceFinder.ClientManager.OnClientTimeOut += ClientManager_OnClientTimeOut;
     }
 
     private void ClientManager_OnClientTimeOut()
@@ -46,7 +43,7 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
 
     private void OnDestroy()
     {
-        NetworkManager.ClientManager.OnClientTimeOut -= ClientManager_OnClientTimeOut;
+        InstanceFinder.ClientManager.OnClientTimeOut -= ClientManager_OnClientTimeOut;
     }
 
     private void Update()
@@ -93,7 +90,7 @@ public class ArenaManager : NetworkSingleton<ArenaManager>
             allPlayerScores.ForEach(ps => ps.Score = 0);
         }
         UpdateArenaScoreText();
-        activePlayers.ForEach(p => p.Spawn());
+        activePlayers.ForEach(p => p.Activate());
     }
 
     private void UpdateArenaScoreText()

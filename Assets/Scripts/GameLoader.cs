@@ -8,6 +8,7 @@ public class GameLoader : NetworkBehaviour
     public void Awake()
     {
         var gameSettings = GameSettingsHelper.GetGameSettings();
+        InstanceFinder.TimeManager.SetTickRate(60);
         if (gameSettings.IsHost)
         {
             LoadHost();

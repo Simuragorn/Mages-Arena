@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using FishNet;
 using FishNet.Object;
 using UnityEngine;
 
@@ -178,7 +179,7 @@ public class Shell : NetworkBehaviour
         if (IsServer)
         {
             var destroyVFXObject = Instantiate(destroyVFX.gameObject, transform.position, transform.rotation);
-            Spawn(destroyVFXObject);
+            InstanceFinder.ServerManager.Spawn(destroyVFXObject);
             Destroy(destroyVFXObject, 2f);
         }
     }

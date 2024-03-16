@@ -2,7 +2,6 @@ using FishNet.Connection;
 using FishNet.Object;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 public enum PlayerAnimationState
@@ -35,34 +34,29 @@ public class Player : NetworkBehaviour
         }
         return OwnerId == 0 ? "Host" : "Client";
     }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
 
-    private void Awake()
-    {
-        sprite.enabled = false;
-    }
-    public override void OnOwnershipClient(NetworkConnection prevOwner)
-    {
-        if (IsOwner)
-        {
-            LocalInstance = this;
-        }
         if (IsServer)
         {
             health.OnPlayerDead += Health_OnPlayerDead;
         }
+        LocalInstance = this;
         Players.Add(this);
         var identities = PlayersIdentityManager.Singleton.GetPlayerIdentities();
         identity = identities.FirstOrDefault(i => i.Index == Players.Count - 1);
         ArenaManager.Singleton.AddPlayer(this);
-        Spawn();
+        Activate();
     }
     public override void OnDespawnServer(NetworkConnection connection)
     {
+        base.OnDespawnServer(connection);
         ArenaManager.Singleton.RemovePlayer(this);
         Players.Remove(this);
     }
 
-    public void Spawn()
+    public void Activate()
     {
         transform.position = SpawnManager.Singleton.GetSpawnPointForPlayer(identity.Index);
         animator.runtimeAnimatorController = identity.Animator;
