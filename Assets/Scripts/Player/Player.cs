@@ -69,6 +69,7 @@ public class Player : NetworkBehaviour
         sprite.sprite = identity.Sprite;
         sprite.enabled = true;
         magic.Refresh();
+        movement.Refresh();
         health.Resurrect();
     }
 
